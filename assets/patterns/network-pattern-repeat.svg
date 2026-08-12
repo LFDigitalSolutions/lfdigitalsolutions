@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <!-- Scattered laptop device icons pattern - tech themed -->
+  
+  <!-- Large laptops -->
+  <!-- Laptop 1 - top left -->
+  <g opacity="0.12">
+    <rect x="20" y="30" width="40" height="28" rx="2" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="20" y1="55" x2="60" y2="55" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="15" y1="58" x2="65" y2="58" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="32" y="36" width="16" height="10" fill="#60A5FA" opacity="0.3"/>
+  </g>
+  
+  <!-- Laptop 2 - top right -->
+  <g opacity="0.14">
+    <rect x="240" y="25" width="45" height="32" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.5"/>
+    <line x1="240" y1="52" x2="285" y2="52" stroke="#1E3A8A" stroke-width="1.5"/>
+    <line x1="234" y1="57" x2="291" y2="57" stroke="#1E3A8A" stroke-width="2"/>
+    <rect x="254" y="32" width="18" height="12" fill="#3B82F6" opacity="0.3"/>
+  </g>
+  
+  <!-- Laptop 3 - center -->
+  <g opacity="0.16">
+    <rect x="130" y="135" width="50" height="35" rx="2" fill="none" stroke="#60A5FA" stroke-width="1.8"/>
+    <line x1="130" y1="165" x2="180" y2="165" stroke="#60A5FA" stroke-width="1.8"/>
+    <line x1="123" y1="170" x2="187" y2="170" stroke="#60A5FA" stroke-width="2.5"/>
+    <rect x="146" y="143" width="20" height="14" fill="#3B82F6" opacity="0.3"/>
+  </g>
+  
+  <!-- Laptop 4 - bottom left -->
+  <g opacity="0.13">
+    <rect x="25" y="250" width="42" height="30" rx="2" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="25" y1="276" x2="67" y2="276" stroke="#3B82F6" stroke-width="1.5"/>
+    <line x1="19" y1="280" x2="73" y2="280" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="37" y="257" width="17" height="11" fill="#60A5FA" opacity="0.3"/>
+  </g>
+  
+  <!-- Laptop 5 - bottom right -->
+  <g opacity="0.15">
+    <rect x="235" y="255" width="48" height="33" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.6"/>
+    <line x1="235" y1="283" x2="283" y2="283" stroke="#1E3A8A" stroke-width="1.6"/>
+    <line x1="228" y1="288" x2="290" y2="288" stroke="#1E3A8A" stroke-width="2.2"/>
+    <rect x="250" y="263" width="19" height="13" fill="#60A5FA" opacity="0.3"/>
+  </g>
+  
+  <!-- Medium laptops scattered -->
+  <!-- Laptop 6 - top center left -->
+  <g opacity="0.11">
+    <rect x="95" y="45" width="35" height="24" rx="1.5" fill="none" stroke="#60A5FA" stroke-width="1.2"/>
+    <line x1="95" y1="66" x2="130" y2="66" stroke="#60A5FA" stroke-width="1.2"/>
+    <line x1="91" y1="69" x2="134" y2="69" stroke="#60A5FA" stroke-width="1.8"/>
+    <rect x="105" y="51" width="14" height="9" fill="#3B82F6" opacity="0.25"/>
+  </g>
+  
+  <!-- Laptop 7 - top center right -->
+  <g opacity="0.12">
+    <rect x="170" y="50" width="38" height="26" rx="1.5" fill="none" stroke="#3B82F6" stroke-width="1.3"/>
+    <line x1="170" y1="73" x2="208" y2="73" stroke="#3B82F6" stroke-width="1.3"/>
+    <line x1="165" y1="76" x2="213" y2="76" stroke="#3B82F6" stroke-width="1.9"/>
+    <rect x="181" y="56" width="15" height="10" fill="#60A5FA" opacity="0.25"/>
+  </g>
+  
+  <!-- Laptop 8 - middle left -->
+  <g opacity="0.13">
+    <rect x="30" y="130" width="36" height="25" rx="1.5" fill="none" stroke="#1E3A8A" stroke-width="1.2"/>
+    <line x1="30" y1="152" x2="66" y2="152" stroke="#1E3A8A" stroke-width="1.2"/>
+    <line x1="26" y1="155" x2="70" y2="155" stroke="#1E3A8A" stroke-width="1.8"/>
+    <rect x="40" y="136" width="14" height="9" fill="#3B82F6" opacity="0.25"/>
+  </g>
+  
+  <!-- Laptop 9 - middle right -->
+  <g opacity="0.12">
+    <rect x="235" y="145" width="37" height="26" rx="1.5" fill="none" stroke="#60A5FA" stroke-width="1.3"/>
+    <line x1="235" y1="168" x2="272" y2="168" stroke="#60A5FA" stroke-width="1.3"/>
+    <line x1="231" y1="171" x2="276" y2="171" stroke="#60A5FA" stroke-width="1.9"/>
+    <rect x="245" y="151" width="15" height="10" fill="#3B82F6" opacity="0.25"/>
+  </g>
+  
+  <!-- Laptop 10 - bottom center left -->
+  <g opacity="0.11">
+    <rect x="100" y="230" width="34" height="23" rx="1.5" fill="none" stroke="#3B82F6" stroke-width="1.2"/>
+    <line x1="100" y1="250" x2="134" y2="250" stroke="#3B82F6" stroke-width="1.2"/>
+    <line x1="96" y1="253" x2="138" y2="253" stroke="#3B82F6" stroke-width="1.8"/>
+    <rect x="109" y="236" width="13" height="8" fill="#60A5FA" opacity="0.25"/>
+  </g>
+  
+  <!-- Laptop 11 - bottom center right -->
+  <g opacity="0.13">
+    <rect x="165" y="240" width="36" height="25" rx="1.5" fill="none" stroke="#1E3A8A" stroke-width="1.2"/>
+    <line x1="165" y1="262" x2="201" y2="262" stroke="#1E3A8A" stroke-width="1.2"/>
+    <line x1="161" y1="265" x2="205" y2="265" stroke="#1E3A8A" stroke-width="1.8"/>
+    <rect x="174" y="246" width="14" height="9" fill="#60A5FA" opacity="0.25"/>
+  </g>
+  
+  <!-- Small laptops - extra scattered -->
+  <!-- Laptop 12 -->
+  <g opacity="0.09">
+    <rect x="70" y="85" width="28" height="19" rx="1" fill="none" stroke="#60A5FA" stroke-width="1"/>
+    <line x1="70" y1="102" x2="98" y2="102" stroke="#60A5FA" stroke-width="1"/>
+    <line x1="67" y1="104" x2="101" y2="104" stroke="#60A5FA" stroke-width="1.5"/>
+    <rect x="78" y="90" width="11" height="7" fill="#3B82F6" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 13 -->
+  <g opacity="0.10">
+    <rect x="210" y="95" width="30" height="20" rx="1" fill="none" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="210" y1="113" x2="240" y2="113" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="206" y1="115" x2="244" y2="115" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="219" y="100" width="12" height="7" fill="#60A5FA" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 14 -->
+  <g opacity="0.09">
+    <rect x="140" y="80" width="27" height="18" rx="1" fill="none" stroke="#1E3A8A" stroke-width="1"/>
+    <line x1="140" y1="96" x2="167" y2="96" stroke="#1E3A8A" stroke-width="1"/>
+    <line x1="137" y1="98" x2="170" y2="98" stroke="#1E3A8A" stroke-width="1.5"/>
+    <rect x="148" y="85" width="10" height="6" fill="#3B82F6" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 15 -->
+  <g opacity="0.10">
+    <rect x="55" y="175" width="29" height="20" rx="1" fill="none" stroke="#60A5FA" stroke-width="1"/>
+    <line x1="55" y1="193" x2="84" y2="193" stroke="#60A5FA" stroke-width="1"/>
+    <line x1="52" y1="195" x2="87" y2="195" stroke="#60A5FA" stroke-width="1.5"/>
+    <rect x="63" y="180" width="11" height="7" fill="#3B82F6" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 16 -->
+  <g opacity="0.09">
+    <rect x="185" y="185" width="28" height="19" rx="1" fill="none" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="185" y1="202" x2="213" y2="202" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="182" y1="204" x2="216" y2="204" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="193" y="190" width="11" height="7" fill="#60A5FA" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 17 -->
+  <g opacity="0.08">
+    <rect x="265" y="105" width="26" height="17" rx="1" fill="none" stroke="#1E3A8A" stroke-width="0.9"/>
+    <line x1="265" y1="120" x2="291" y2="120" stroke="#1E3A8A" stroke-width="0.9"/>
+    <line x1="262" y1="122" x2="294" y2="122" stroke="#1E3A8A" stroke-width="1.4"/>
+    <rect x="272" y="109" width="10" height="6" fill="#60A5FA" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 18 -->
+  <g opacity="0.08">
+    <rect x="15" y="195" width="27" height="18" rx="1" fill="none" stroke="#60A5FA" stroke-width="0.9"/>
+    <line x1="15" y1="211" x2="42" y2="211" stroke="#60A5FA" stroke-width="0.9"/>
+    <line x1="12" y1="213" x2="45" y2="213" stroke="#60A5FA" stroke-width="1.4"/>
+    <rect x="22" y="199" width="10" height="6" fill="#3B82F6" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 19 -->
+  <g opacity="0.09">
+    <rect x="120" y="195" width="28" height="19" rx="1" fill="none" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="120" y1="212" x2="148" y2="212" stroke="#3B82F6" stroke-width="1"/>
+    <line x1="117" y1="214" x2="151" y2="214" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect x="128" y="200" width="11" height="7" fill="#60A5FA" opacity="0.2"/>
+  </g>
+  
+  <!-- Laptop 20 -->
+  <g opacity="0.08">
+    <rect x="260" y="200" width="26" height="17" rx="1" fill="none" stroke="#1E3A8A" stroke-width="0.9"/>
+    <line x1="260" y1="215" x2="286" y2="215" stroke="#1E3A8A" stroke-width="0.9"/>
+    <line x1="257" y1="217" x2="289" y2="217" stroke="#1E3A8A" stroke-width="1.4"/>
+    <rect x="267" y="204" width="10" height="6" fill="#60A5FA" opacity="0.2"/>
+  </g>
+  
+  <!-- Extra tiny laptops for density -->
+  <!-- Laptop 21 -->
+  <g opacity="0.07">
+    <rect x="80" y="125" width="22" height="14" rx="0.8" fill="none" stroke="#60A5FA" stroke-width="0.8"/>
+    <line x1="80" y1="137" x2="102" y2="137" stroke="#60A5FA" stroke-width="0.8"/>
+    <line x1="77" y1="139" x2="105" y2="139" stroke="#60A5FA" stroke-width="1.2"/>
+  </g>
+  
+  <!-- Laptop 22 -->
+  <g opacity="0.07">
+    <rect x="200" y="130" width="23" height="15" rx="0.8" fill="none" stroke="#3B82F6" stroke-width="0.8"/>
+    <line x1="200" y1="143" x2="223" y2="143" stroke="#3B82F6" stroke-width="0.8"/>
+    <line x1="197" y1="145" x2="226" y2="145" stroke="#3B82F6" stroke-width="1.2"/>
+  </g>
+  
+  <!-- Laptop 23 -->
+  <g opacity="0.07">
+    <rect x="155" y="15" width="22" height="14" rx="0.8" fill="none" stroke="#1E3A8A" stroke-width="0.8"/>
+    <line x1="155" y1="27" x2="177" y2="27" stroke="#1E3A8A" stroke-width="0.8"/>
+    <line x1="152" y1="29" x2="180" y2="29" stroke="#1E3A8A" stroke-width="1.2"/>
+  </g>
+  
+  <!-- Laptop 24 -->
+  <g opacity="0.07">
+    <rect x="45" y="215" width="21" height="13" rx="0.8" fill="none" stroke="#60A5FA" stroke-width="0.8"/>
+    <line x1="45" y1="226" x2="66" y2="226" stroke="#60A5FA" stroke-width="0.8"/>
+    <line x1="43" y1="228" x2="68" y2="228" stroke="#60A5FA" stroke-width="1.2"/>
+  </g>
+</svg>

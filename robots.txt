@@ -1,0 +1,10 @@
+# robots.txt for L.F Digital Solutions
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://lfdigitalsolutions.com/sitemap.xml
+
+# Crawl-delay (optional, in seconds)
+# Crawl-delay: 10

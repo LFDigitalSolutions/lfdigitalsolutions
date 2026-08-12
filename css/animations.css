@@ -1,0 +1,128 @@
+/* Animation Styles */
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scroll Animation Classes */
+.animate-on-scroll {
+  opacity: 0;
+}
+
+.animate-on-scroll.visible {
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.visible[data-animation="fade-in"] {
+  animation-name: fadeIn;
+}
+
+.animate-on-scroll.visible[data-animation="slide-up"] {
+  animation-name: slideUp;
+}
+
+.animate-on-scroll.visible[data-animation="slide-right"] {
+  animation-name: slideInRight;
+}
+
+.animate-on-scroll.visible[data-animation="slide-left"] {
+  animation-name: slideInLeft;
+}
+
+/* Hover Transitions */
+.hover-lift {
+  transition: transform var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-on-scroll {
+    opacity: 1 !important;
+  }
+  
+  .animate-on-scroll.visible {
+    animation: none !important;
+  }
+}
+
+/* GPU Acceleration Helper */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Remove will-change after animation completes */
+.animation-complete {
+  will-change: auto !important;
+}
+
