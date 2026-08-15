@@ -31,18 +31,6 @@
   -webkit-filter: blur(8px);
 }
 
-/* Pause video on mobile to save data/battery */
-@media (max-width: 767px) {
-  .hero-video-bg {
-    display: none;
-  }
-  
-  /* Fallback gradient background for mobile */
-  .hero-section {
-    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
-  }
-}
-
 /* Dark overlay to ensure text readability */
 .hero-video-overlay {
   position: absolute;
