@@ -564,7 +564,8 @@
   padding: var(--space-sm) var(--space-lg);
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-full);
-  display: inline-block;
+  display: block;
+  max-width: 100%;
   transition: all var(--transition-fast);
   border: 1px solid rgba(255, 255, 255, 0.2);
   word-break: break-all;
