@@ -198,7 +198,16 @@ function formatNumber(num) {
 }
 
 function goToPage2() {
-    // No validation needed for Page 1 - just service selection
+    // Validate that at least ONE item is selected from Page 1 tables
+    const hasPackage = document.querySelector('.package-radio:checked') !== null;
+    const hasServices = document.querySelectorAll('input[name^="service_"]:checked').length > 0;
+    const hasAddons = document.querySelectorAll('input[name^="addon_"]:checked').length > 0;
+    
+    if (!hasPackage && !hasServices && !hasAddons) {
+        showToast('error', 'Please select at least one service, package, or add-on before continuing.');
+        return;
+    }
+    
     // Hide page 1, show page 2
     document.getElementById('cost-estimate-form').style.display = 'none';
     document.getElementById('page-2').style.display = 'block';
