@@ -1,6 +1,6 @@
 // Cost Estimate Handler with Multi-Page Navigation
 
-let companySignaturePad, clientSignaturePad;
+let clientSignaturePad;
 let totalCost = 0;
 let selectedPackage = null;
 
@@ -228,20 +228,7 @@ function goToPage3() {
 }
 
 function initSignaturePads() {
-    // Company signature pad
-    const companyCanvas = document.getElementById('company-signature');
-    if (companyCanvas && !companySignaturePad) {
-        const container = companyCanvas.parentElement;
-        companyCanvas.width = container.offsetWidth;
-        companyCanvas.height = container.offsetHeight;
-        
-        companySignaturePad = new SignaturePad(companyCanvas, {
-            backgroundColor: 'rgb(255, 255, 255)',
-            penColor: 'rgb(30, 58, 138)'
-        });
-    }
-    
-    // Client signature pad
+    // Client signature pad only
     const clientCanvas = document.getElementById('client-signature');
     if (clientCanvas && !clientSignaturePad) {
         const container = clientCanvas.parentElement;
@@ -255,12 +242,6 @@ function initSignaturePads() {
     }
 }
 
-function clearCompanySig() {
-    if (companySignaturePad) {
-        companySignaturePad.clear();
-    }
-}
-
 function clearClientSig() {
     if (clientSignaturePad) {
         clientSignaturePad.clear();
@@ -270,12 +251,7 @@ function clearClientSig() {
 async function handleSubmit(e) {
     e.preventDefault();
     
-    // Validate signatures
-    if (!companySignaturePad || companySignaturePad.isEmpty()) {
-        showToast('error', 'Company signature is required');
-        return;
-    }
-    
+    // Validate client signature only
     if (!clientSignaturePad || clientSignaturePad.isEmpty()) {
         showToast('error', 'Client signature is required');
         return;
@@ -299,15 +275,13 @@ async function handleSubmit(e) {
     submitBtn.textContent = 'Submitting...';
     
     try {
-        // Get signatures
-        const companySignature = companySignaturePad.toDataURL('image/png');
+        // Get client signature
         const clientSignature = clientSignaturePad.toDataURL('image/png');
         
         // Collect all form data
         const formData = new FormData(document.getElementById('cost-estimate-form'));
         
-        // Add signatures
-        formData.append('company_signature', companySignature);
+        // Add signature
         formData.append('client_signature', clientSignature);
         
         // Add selected services
@@ -337,7 +311,7 @@ async function handleSubmit(e) {
         
         if (result.success) {
             // Send to company email
-            await sendToCompanyEmail(formData, message, companySignature, clientSignature);
+            await sendToCompanyEmail(formData, message, clientSignature);
             
             showToast('success', 'Cost estimate submitted successfully! Confirmation emails have been sent.');
             
@@ -433,13 +407,8 @@ Additional Notes:
 ${formData.get('additional_notes') || 'None'}
 
 ───────────────────────────────────────────────────────────
-SIGNATURES
+CLIENT SIGNATURE
 ───────────────────────────────────────────────────────────
-
-L.F DIGITAL SOLUTIONS:
-  Signer: ${formData.get('company_signer')}
-  Co-Founder: ${formData.get('company_cofounder')}
-  Date: ${formData.get('company_date')}
 
 CLIENT:
   Name: ${formData.get('client_signer')}
@@ -447,7 +416,7 @@ CLIENT:
   Company: ${formData.get('client_company_sig') || 'N/A'}
   Date: ${formData.get('client_date')}
 
-Both signatures are attached as images.
+Client signature is attached as an image.
 
 ═══════════════════════════════════════════════════════════
 
@@ -500,7 +469,7 @@ function getPreferredStyle(formData) {
     return styles.join(', ') || 'Not specified';
 }
 
-async function sendToCompanyEmail(formData, message, companySignature, clientSignature) {
+async function sendToCompanyEmail(formData, message, clientSignature) {
     const companyFormData = new FormData();
     
     companyFormData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
@@ -508,7 +477,6 @@ async function sendToCompanyEmail(formData, message, companySignature, clientSig
     companyFormData.append('from_name', 'L.F Digital Solutions - Cost Estimate');
     companyFormData.append('email', 'lf.digitalsolutions.official@gmail.com');
     companyFormData.append('message', message);
-    companyFormData.append('company_signature', companySignature);
     companyFormData.append('client_signature', clientSignature);
     
     await fetch('https://api.web3forms.com/submit', {
