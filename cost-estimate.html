@@ -726,11 +726,9 @@
                             <label><input type="checkbox" name="category_business" id="category_business" disabled> Business Website</label>
                             <label><input type="checkbox" name="category_portfolio" id="category_portfolio" disabled> Portfolio</label>
                             <label><input type="checkbox" name="category_custom" id="category_custom" disabled> Custom System</label>
-                            <label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
                                 <input type="checkbox" name="category_other" id="category_other" disabled> Other:
-                                <select name="category_other_dropdown" id="category_other_dropdown" style="width: 250px; margin-left: 8px; padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px;" disabled>
-                                    <option value="">Select from add-ons...</option>
-                                </select>
+                                <span id="category_other_list" style="color: #1E3A8A; font-weight: 600; font-style: italic;"></span>
                             </label>
                         </div>
                         <p class="note-small" style="margin-top: 8px;"><em>Category is automatically determined based on your selections above.</em></p>

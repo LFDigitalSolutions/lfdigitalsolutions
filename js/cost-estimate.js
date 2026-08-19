@@ -120,7 +120,7 @@ function autoDetermineCategory() {
     const categoryPortfolio = document.getElementById('category_portfolio');
     const categoryCustom = document.getElementById('category_custom');
     const categoryOther = document.getElementById('category_other');
-    const categoryOtherDropdown = document.getElementById('category_other_dropdown');
+    const categoryOtherList = document.getElementById('category_other_list');
     
     // If these elements don't exist yet (page 3 not loaded), return
     if (!categoryBusiness) return;
@@ -130,11 +130,27 @@ function autoDetermineCategory() {
     categoryPortfolio.checked = false;
     categoryCustom.checked = false;
     categoryOther.checked = false;
+    if (categoryOtherList) categoryOtherList.textContent = '';
     
-    // Check selected package
+    // Check what's selected
     const selectedRadio = document.querySelector('.package-radio:checked');
+    const servicesSelected = document.querySelectorAll('input[name^="service_"]:checked');
+    const addonsSelected = document.querySelectorAll('input[name^="addon_"]:checked');
     
-    if (selectedRadio) {
+    const hasPackage = selectedRadio !== null;
+    const hasServices = servicesSelected.length > 0;
+    const hasAddons = addonsSelected.length > 0;
+    
+    // Priority Logic:
+    
+    // 1. If they selected from multiple tables (Package + Services, or Package + Add-ons, or all three) → Custom System
+    if ((hasPackage && hasServices) || (hasPackage && hasAddons) || (hasServices && hasAddons)) {
+        categoryCustom.checked = true;
+        return;
+    }
+    
+    // 2. If ONLY a package is selected
+    if (hasPackage && !hasServices && !hasAddons) {
         const packageValue = selectedRadio.value;
         
         // Starter Package → Portfolio
@@ -145,45 +161,35 @@ function autoDetermineCategory() {
         else if (['Basic Business', 'Professional', 'Business Pro', 'Enterprise', 'Agricultural Management System'].includes(packageValue)) {
             categoryBusiness.checked = true;
         }
-    }
-    // No package selected, check if they selected services from Table 1
-    else {
-        const servicesSelected = document.querySelectorAll('.service-checkbox:checked');
-        let hasTable1Services = false;
-        
-        servicesSelected.forEach(checkbox => {
-            if (checkbox.name && checkbox.name.startsWith('service_')) {
-                hasTable1Services = true;
-            }
-        });
-        
-        if (hasTable1Services) {
-            categoryCustom.checked = true;
-        }
+        return;
     }
     
-    // Check if add-ons from Table 3 are selected
-    const addons = document.querySelectorAll('input[name^="addon_"]:checked');
-    if (addons.length > 0) {
+    // 3. If ONLY services from Table 1 are selected → Custom System
+    if (hasServices && !hasPackage && !hasAddons) {
+        categoryCustom.checked = true;
+        return;
+    }
+    
+    // 4. If ONLY add-ons from Table 3 are selected → Other (with list)
+    if (hasAddons && !hasPackage && !hasServices) {
         categoryOther.checked = true;
         
-        // Populate dropdown with selected add-ons
-        categoryOtherDropdown.innerHTML = '<option value="">Selected add-ons:</option>';
-        addons.forEach(addon => {
+        // Get add-on names and display as comma-separated list
+        const addonNames = [];
+        addonsSelected.forEach(addon => {
             const row = addon.closest('tr');
             if (row) {
                 const addonName = row.querySelectorAll('td')[1]?.textContent.trim();
                 if (addonName) {
-                    const option = document.createElement('option');
-                    option.value = addonName;
-                    option.textContent = addonName;
-                    option.selected = true;
-                    categoryOtherDropdown.appendChild(option);
+                    addonNames.push(addonName);
                 }
             }
         });
-    } else {
-        categoryOtherDropdown.innerHTML = '<option value="">Select from add-ons...</option>';
+        
+        if (categoryOtherList && addonNames.length > 0) {
+            categoryOtherList.textContent = addonNames.join(', ');
+        }
+        return;
     }
 }
 
@@ -449,10 +455,9 @@ function getProjectCategory(formData) {
     if (document.getElementById('category_portfolio')?.checked) categories.push('Portfolio');
     if (document.getElementById('category_custom')?.checked) categories.push('Custom System');
     if (document.getElementById('category_other')?.checked) {
-        const dropdown = document.getElementById('category_other_dropdown');
-        const selectedOptions = Array.from(dropdown.selectedOptions).map(opt => opt.value).filter(v => v);
-        if (selectedOptions.length > 0) {
-            categories.push(`Other: ${selectedOptions.join(', ')}`);
+        const otherList = document.getElementById('category_other_list')?.textContent;
+        if (otherList) {
+            categories.push(`Other: ${otherList}`);
         } else {
             categories.push('Other');
         }
