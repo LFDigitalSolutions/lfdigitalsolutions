@@ -9,7 +9,21 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     calculateTotal();
     setTodayDate();
+    initBackgroundVideo();
 });
+
+function initBackgroundVideo() {
+    const video = document.getElementById('bg-video');
+    if (video) {
+        video.play().catch(error => {
+            console.log('Video autoplay prevented:', error);
+            // Fallback: try playing on user interaction
+            document.addEventListener('click', () => {
+                video.play();
+            }, { once: true });
+        });
+    }
+}
 
 function setupEventListeners() {
     // Listen to all service checkboxes
