@@ -1,318 +1,435 @@
-// Cost Estimate Form Handler
+// Cost Estimate Handler with Multi-Page Navigation
 
-class CostEstimateForm {
-  constructor() {
-    this.form = document.getElementById('cost-estimate-form');
-    this.canvas = document.getElementById('signature-canvas');
-    this.signaturePad = null;
-    this.totalAmount = 0;
-    
-    this.init();
-  }
-  
-  init() {
-    // Generate document number
-    this.generateDocNumber();
-    
-    // Initialize signature pad
-    this.initSignaturePad();
-    
-    // Set up event listeners
-    this.setupEventListeners();
-    
-    // Initial cost calculation
-    this.calculateTotal();
-  }
-  
-  generateDocNumber() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const random = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
-    const docNumber = `${year}${month}${day}${random}`;
-    
-    document.getElementById('doc-number').textContent = docNumber;
-  }
-  
-  initSignaturePad() {
-    // Set canvas size
-    const container = this.canvas.parentElement;
-    this.canvas.width = container.offsetWidth;
-    this.canvas.height = container.offsetHeight;
-    
-    // Initialize signature pad
-    this.signaturePad = new SignaturePad(this.canvas, {
-      backgroundColor: 'rgb(255, 255, 255)',
-      penColor: 'rgb(30, 58, 138)'
+let companySignaturePad, clientSignaturePad;
+let totalCost = 0;
+let selectedPackage = null;
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setupEventListeners();
+    calculateTotal();
+    setTodayDate();
+});
+
+function setupEventListeners() {
+    // Listen to all service checkboxes
+    document.querySelectorAll('.service-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', calculateTotal);
     });
     
-    // Clear button
-    document.getElementById('clear-signature').addEventListener('click', () => {
-      this.signaturePad.clear();
-    });
-    
-    // Resize handler
-    window.addEventListener('resize', () => {
-      const data = this.signaturePad.toData();
-      const container = this.canvas.parentElement;
-      this.canvas.width = container.offsetWidth;
-      this.canvas.height = container.offsetHeight;
-      this.signaturePad.fromData(data);
-    });
-  }
-  
-  setupEventListeners() {
-    // Listen to all checkboxes for cost calculation
-    const checkboxes = document.querySelectorAll('.service-checkbox');
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', () => this.calculateTotal());
+    // Listen to package radio buttons
+    document.querySelectorAll('.package-radio').forEach(radio => {
+        radio.addEventListener('change', calculateTotal);
     });
     
     // Form submission
-    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-  }
-  
-  calculateTotal() {
+    const form = document.getElementById('cost-estimate-form');
+    form.addEventListener('submit', handleSubmit);
+}
+
+function setTodayDate() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(input => {
+        if (!input.value) {
+            input.value = today;
+        }
+    });
+}
+
+function selectPackage(packageId) {
+    const radio = document.getElementById(packageId);
+    if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change'));
+        
+        // Update card visual state
+        document.querySelectorAll('.package-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        const card = radio.closest('.package-card');
+        if (card) {
+            card.classList.add('selected');
+        }
+        
+        selectedPackage = radio.value;
+    }
+}
+
+function calculateTotal() {
     let total = 0;
     
-    // Get all checked service checkboxes
+    // Calculate from checkboxes
     const checkboxes = document.querySelectorAll('.service-checkbox:checked');
     checkboxes.forEach(checkbox => {
-      const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
-      total += price;
+        const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+        total += price;
     });
     
-    this.totalAmount = total;
+    // Calculate from package (radio buttons)
+    const selectedRadio = document.querySelector('.package-radio:checked');
+    if (selectedRadio) {
+        const price = parseFloat(selectedRadio.getAttribute('data-price')) || 0;
+        total += price;
+        selectedPackage = selectedRadio.value;
+    }
     
-    // Update display
-    document.getElementById('subtotal-amount').textContent = `₱${this.formatNumber(total)}`;
-    document.getElementById('total-amount').textContent = `₱${this.formatNumber(total)}`;
-  }
-  
-  formatNumber(num) {
+    totalCost = total;
+    
+    // Update all displays
+    document.getElementById('subtotal-amount').textContent = `₱${formatNumber(total)}`;
+    document.getElementById('total-amount').textContent = `₱${formatNumber(total)}`;
+    
+    // Update page 3 displays if they exist
+    const finalSubtotal = document.getElementById('final-subtotal');
+    const finalTotal = document.getElementById('final-total');
+    const selectedPackageDisplay = document.getElementById('selected-package-display');
+    const estimatedBudgetDisplay = document.getElementById('estimated-budget-display');
+    
+    if (finalSubtotal) finalSubtotal.textContent = `₱${formatNumber(total)}`;
+    if (finalTotal) finalTotal.textContent = `₱${formatNumber(total)}`;
+    if (selectedPackageDisplay) selectedPackageDisplay.value = selectedPackage || 'None selected';
+    if (estimatedBudgetDisplay) estimatedBudgetDisplay.value = `₱${formatNumber(total)}`;
+}
+
+function formatNumber(num) {
     return num.toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  }
-  
-  async handleSubmit(e) {
+}
+
+function goToPage2() {
+    // Validate Page 1 required fields
+    const requiredFields = [
+        'date', 'business_name', 'prepared_for'
+    ];
+    
+    let isValid = true;
+    requiredFields.forEach(fieldName => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field && !field.value) {
+            isValid = false;
+            field.style.borderColor = '#ef4444';
+        } else if (field) {
+            field.style.borderColor = '#e2e8f0';
+        }
+    });
+    
+    if (!isValid) {
+        showToast('error', 'Please fill in all required fields before continuing');
+        return;
+    }
+    
+    // Hide page 1, show page 2
+    document.getElementById('cost-estimate-form').style.display = 'none';
+    document.getElementById('page-2').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function goToPage3() {
+    // Hide page 2, show page 3
+    document.getElementById('page-2').style.display = 'none';
+    document.getElementById('page-3').style.display = 'block';
+    window.scrollTo(0, 0);
+    
+    // Initialize signature pads
+    initSignaturePads();
+    
+    // Update final displays
+    calculateTotal();
+}
+
+function initSignaturePads() {
+    // Company signature pad
+    const companyCanvas = document.getElementById('company-signature');
+    if (companyCanvas && !companySignaturePad) {
+        const container = companyCanvas.parentElement;
+        companyCanvas.width = container.offsetWidth;
+        companyCanvas.height = container.offsetHeight;
+        
+        companySignaturePad = new SignaturePad(companyCanvas, {
+            backgroundColor: 'rgb(255, 255, 255)',
+            penColor: 'rgb(30, 58, 138)'
+        });
+    }
+    
+    // Client signature pad
+    const clientCanvas = document.getElementById('client-signature');
+    if (clientCanvas && !clientSignaturePad) {
+        const container = clientCanvas.parentElement;
+        clientCanvas.width = container.offsetWidth;
+        clientCanvas.height = container.offsetHeight;
+        
+        clientSignaturePad = new SignaturePad(clientCanvas, {
+            backgroundColor: 'rgb(255, 255, 255)',
+            penColor: 'rgb(30, 58, 138)'
+        });
+    }
+}
+
+function clearCompanySig() {
+    if (companySignaturePad) {
+        companySignaturePad.clear();
+    }
+}
+
+function clearClientSig() {
+    if (clientSignaturePad) {
+        clientSignaturePad.clear();
+    }
+}
+
+async function handleSubmit(e) {
     e.preventDefault();
     
-    // Validate signature
-    if (this.signaturePad.isEmpty()) {
-      this.showToast('error', 'Please provide your signature before submitting');
-      return;
+    // Validate signatures
+    if (!companySignaturePad || companySignaturePad.isEmpty()) {
+        showToast('error', 'Company signature is required');
+        return;
     }
     
-    // Check if at least one service is selected
-    const selectedServices = document.querySelectorAll('.service-checkbox:checked');
-    if (selectedServices.length === 0) {
-      this.showToast('error', 'Please select at least one service or package');
-      return;
+    if (!clientSignaturePad || clientSignaturePad.isEmpty()) {
+        showToast('error', 'Client signature is required');
+        return;
     }
     
-    // Show loading state
-    const submitBtn = document.getElementById('submit-btn');
+    // Validate required fields on page 3
+    const clientName = document.querySelector('[name="client_name"]').value;
+    const contactNumber = document.querySelector('[name="contact_number"]').value;
+    const emailAddress = document.querySelector('[name="email_address"]').value;
+    const clientSigner = document.querySelector('[name="client_signer"]').value;
+    const clientDate = document.querySelector('[name="client_date"]').value;
+    
+    if (!clientName || !contactNumber || !emailAddress || !clientSigner || !clientDate) {
+        showToast('error', 'Please fill in all required fields');
+        return;
+    }
+    
+    // Show loading
+    const submitBtn = document.getElementById('submit-estimate');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Processing...';
+    submitBtn.textContent = 'Submitting...';
     
     try {
-      // Get signature as data URL
-      const signatureDataURL = this.signaturePad.toDataURL('image/png');
-      
-      // Collect form data
-      const formData = new FormData(this.form);
-      
-      // Add signature
-      formData.append('signature', signatureDataURL);
-      
-      // Add selected services list
-      const services = this.getSelectedServices();
-      formData.append('selected_services', JSON.stringify(services));
-      
-      // Add total cost
-      formData.append('total_cost', this.totalAmount);
-      
-      // Add document number
-      formData.append('document_number', document.getElementById('doc-number').textContent);
-      
-      // Web3Forms configuration
-      formData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
-      formData.append('subject', `Cost Estimate Request - ${formData.get('client_name')}`);
-      formData.append('from_name', 'L.F Digital Solutions Cost Estimate');
-      
-      // Email to client (their email from form)
-      formData.append('email', formData.get('email'));
-      
-      // Send to Web3Forms
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        // Success - now send to company email
-        await this.sendToCompanyEmail(formData, signatureDataURL, services);
+        // Get signatures
+        const companySignature = companySignaturePad.toDataURL('image/png');
+        const clientSignature = clientSignaturePad.toDataURL('image/png');
         
-        this.showToast('success', 'Your cost estimate request has been submitted successfully! We\'ll contact you soon.');
+        // Collect all form data
+        const formData = new FormData(document.getElementById('cost-estimate-form'));
         
-        // Clear form after 3 seconds
-        setTimeout(() => {
-          this.form.reset();
-          this.signaturePad.clear();
-          this.calculateTotal();
-        }, 3000);
-      } else {
-        throw new Error('Submission failed');
-      }
-      
+        // Add signatures
+        formData.append('company_signature', companySignature);
+        formData.append('client_signature', clientSignature);
+        
+        // Add selected services
+        const services = getSelectedServices();
+        formData.append('selected_services', JSON.stringify(services));
+        formData.append('total_cost', totalCost);
+        formData.append('selected_package', selectedPackage || 'None');
+        
+        // Web3Forms configuration
+        formData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
+        formData.append('subject', `Cost Estimate - ${clientName}`);
+        formData.append('from_name', 'L.F Digital Solutions - Cost Estimate');
+        
+        // Create detailed message
+        const message = createEmailMessage(formData, services);
+        formData.append('message', message);
+        
+        // Send to client email
+        formData.set('email', emailAddress);
+        
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Send to company email
+            await sendToCompanyEmail(formData, message, companySignature, clientSignature);
+            
+            showToast('success', 'Cost estimate submitted successfully! Confirmation emails have been sent.');
+            
+            // Redirect to homepage after 3 seconds
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 3000);
+        } else {
+            throw new Error('Submission failed');
+        }
+        
     } catch (error) {
-      console.error('Submission error:', error);
-      this.showToast('error', 'Something went wrong. Please try again or contact us at lf.digitalsolutions.official@gmail.com');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Cost Estimate Request';
+        console.error('Submission error:', error);
+        showToast('error', 'Submission failed. Please try again or contact us at lf.digitalsolutions.official@gmail.com');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Cost Estimate';
     }
-  }
-  
-  async sendToCompanyEmail(formData, signature, services) {
-    // Create a new FormData for company email
-    const companyFormData = new FormData();
-    
-    // Add all original form fields
-    for (let [key, value] of formData.entries()) {
-      companyFormData.append(key, value);
-    }
-    
-    // Override email to company email
-    companyFormData.set('email', 'lf.digitalsolutions.official@gmail.com');
-    companyFormData.set('subject', `[COMPANY COPY] Cost Estimate - ${formData.get('client_name')}`);
-    
-    // Create detailed message
-    const detailedMessage = this.formatEmailMessage(formData, services);
-    companyFormData.append('message', detailedMessage);
-    
-    // Send to Web3Forms
-    try {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: companyFormData
-      });
-    } catch (error) {
-      console.error('Company email send error:', error);
-    }
-  }
-  
-  formatEmailMessage(formData, services) {
-    let message = `
-===========================================
-COST ESTIMATE REQUEST
-Document No: LFDS-CE-2026-${document.getElementById('doc-number').textContent}
-===========================================
+}
 
-CLIENT INFORMATION:
--------------------
-Name: ${formData.get('client_name')}
-Company: ${formData.get('company') || 'N/A'}
-Email: ${formData.get('email')}
-Phone: ${formData.get('phone')}
-Project Name: ${formData.get('project_name') || 'N/A'}
-Project Type: ${formData.get('project_type') || 'N/A'}
-
-SELECTED SERVICES:
-------------------
-${services.map(s => `• ${s.name} - ₱${this.formatNumber(s.price)}`).join('\n')}
-
-ESTIMATED COST:
----------------
-Total: ₱${this.formatNumber(this.totalAmount)}
-
-PROJECT DETAILS:
-----------------
-Timeline: ${formData.get('timeline') || 'Not specified'}
-Additional Requirements: ${formData.get('requirements') || 'None provided'}
-
-TARGET AUDIENCE:
-----------------
-${this.getCheckedValues('audience_').join(', ') || 'Not specified'}
-
-DESIGN PREFERENCES:
--------------------
-${this.getCheckedValues('design_').join(', ') || 'Not specified'}
-
-===========================================
-NOTE: Signature is included as attachment
-===========================================
-    `;
-    
-    return message;
-  }
-  
-  getSelectedServices() {
+function getSelectedServices() {
     const services = [];
-    const checkboxes = document.querySelectorAll('.service-checkbox:checked');
     
-    checkboxes.forEach(checkbox => {
-      const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
-      const name = this.getServiceName(checkbox);
-      
-      services.push({
-        name: name,
-        price: price
-      });
+    // Get services from checkboxes
+    document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        let serviceName = checkbox.name.replace(/_/g, ' ').replace('service ', '').replace('addon ', '').replace('maintenance ', '');
+        
+        if (row) {
+            const cells = row.querySelectorAll('td');
+            if (cells[1]) {
+                serviceName = cells[1].textContent.trim();
+            }
+        }
+        
+        const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+        services.push({ name: serviceName, price: price });
     });
+    
+    // Get selected package
+    const selectedRadio = document.querySelector('.package-radio:checked');
+    if (selectedRadio) {
+        const price = parseFloat(selectedRadio.getAttribute('data-price')) || 0;
+        services.push({ name: `Package: ${selectedRadio.value}`, price: price });
+    }
     
     return services;
-  }
-  
-  getServiceName(checkbox) {
-    // Try to get from table row
-    const row = checkbox.closest('tr');
-    if (row) {
-      const nameCell = row.querySelector('.service-name');
-      if (nameCell) return nameCell.textContent.trim();
-    }
+}
+
+function createEmailMessage(formData, services) {
+    let servicesText = services.map(s => `  • ${s.name} - ₱${formatNumber(s.price)}`).join('\n');
     
-    // Try to get from package card
-    const packageCard = checkbox.closest('.package-card');
-    if (packageCard) {
-      const packageName = packageCard.querySelector('.package-name');
-      if (packageName) return packageName.textContent.trim();
-    }
-    
-    // Try to get from checkbox item
-    const checkboxItem = checkbox.closest('.checkbox-item');
-    if (checkboxItem) {
-      const label = checkboxItem.querySelector('label');
-      if (label) {
-        // Extract just the service name, remove price
-        return label.textContent.split(' - ₱')[0].trim();
-      }
-    }
-    
-    // Fallback to checkbox name
-    return checkbox.name.replace(/_/g, ' ').replace('service ', '').replace('pkg ', '').replace('addon ', '').replace('maintenance ', '');
-  }
-  
-  getCheckedValues(prefix) {
-    const values = [];
-    const checkboxes = document.querySelectorAll(`input[name^="${prefix}"]:checked`);
-    
-    checkboxes.forEach(checkbox => {
-      const label = checkbox.nextElementSibling || checkbox.closest('label');
-      if (label) {
-        values.push(label.textContent.trim());
-      }
+    return `
+═══════════════════════════════════════════════════════════
+WEB DEVELOPMENT SERVICE COST ESTIMATE
+L.F DIGITAL SOLUTIONS
+═══════════════════════════════════════════════════════════
+
+DATE: ${formData.get('date')}
+BUSINESS NAME: ${formData.get('business_name')}
+PREPARED FOR: ${formData.get('prepared_for')}
+PROJECT TITLE: ${formData.get('project_title') || 'N/A'}
+
+───────────────────────────────────────────────────────────
+CLIENT INFORMATION
+───────────────────────────────────────────────────────────
+Client Name: ${formData.get('client_name')}
+Company: ${formData.get('company') || 'N/A'}
+Contact Number: ${formData.get('contact_number')}
+Email Address: ${formData.get('email_address')}
+Project Category: ${getProjectCategory(formData)}
+
+───────────────────────────────────────────────────────────
+SELECTED SERVICES & PRICING
+───────────────────────────────────────────────────────────
+
+${servicesText}
+
+TOTAL ESTIMATED COST: ₱${formatNumber(totalCost)}
+
+───────────────────────────────────────────────────────────
+PROJECT DETAILS
+───────────────────────────────────────────────────────────
+
+Selected Package: ${selectedPackage || 'None'}
+Preferred Completion Date: ${formData.get('preferred_completion_date') || 'Not specified'}
+
+Project Description:
+${formData.get('project_description') || 'Not provided'}
+
+Required Features: ${getRequiredFeatures(formData)}
+
+Design Preferences:
+  Preferred Colors: ${formData.get('preferred_colors') || 'Not specified'}
+  Preferred Style: ${getPreferredStyle(formData)}
+  Reference Websites: ${formData.get('reference_websites') || 'None provided'}
+
+Additional Notes:
+${formData.get('additional_notes') || 'None'}
+
+───────────────────────────────────────────────────────────
+SIGNATURES
+───────────────────────────────────────────────────────────
+
+L.F DIGITAL SOLUTIONS:
+  Signer: ${formData.get('company_signer')}
+  Co-Founder: ${formData.get('company_cofounder')}
+  Date: ${formData.get('company_date')}
+
+CLIENT:
+  Name: ${formData.get('client_signer')}
+  Position: ${formData.get('client_position') || 'N/A'}
+  Company: ${formData.get('client_company_sig') || 'N/A'}
+  Date: ${formData.get('client_date')}
+
+Both signatures are attached as images.
+
+═══════════════════════════════════════════════════════════
+
+This is a preliminary cost estimate. Final pricing will be 
+confirmed after detailed project discussion and approval.
+
+Thank you for considering L.F Digital Solutions!
+    `;
+}
+
+function getProjectCategory(formData) {
+    const categories = [];
+    if (formData.get('category_business')) categories.push('Business Website');
+    if (formData.get('category_portfolio')) categories.push('Portfolio');
+    if (formData.get('category_capstone')) categories.push('Capstone');
+    if (formData.get('category_custom')) categories.push('Custom System');
+    const other = formData.get('category_other_text');
+    if (other) categories.push(other);
+    return categories.join(', ') || 'Not specified';
+}
+
+function getRequiredFeatures(formData) {
+    const features = [];
+    const featureFields = ['user_login', 'admin', 'user_mgmt', 'inventory', 'reports', 'booking', 'forms', 'gallery', 'contact', 'responsive', 'database'];
+    featureFields.forEach(field => {
+        if (formData.get(`feature_${field}`)) {
+            features.push(field.replace(/_/g, ' '));
+        }
     });
+    const other = formData.get('feature_other_text');
+    if (other) features.push(other);
+    return features.join(', ') || 'Not specified';
+}
+
+function getPreferredStyle(formData) {
+    const styles = [];
+    const styleFields = ['minimalist', 'modern', 'professional', 'corporate', 'creative'];
+    styleFields.forEach(field => {
+        if (formData.get(`style_${field}`)) {
+            styles.push(field);
+        }
+    });
+    const other = formData.get('style_other_text');
+    if (other) styles.push(other);
+    return styles.join(', ') || 'Not specified';
+}
+
+async function sendToCompanyEmail(formData, message, companySignature, clientSignature) {
+    const companyFormData = new FormData();
     
-    return values;
-  }
-  
-  showToast(type, message) {
+    companyFormData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
+    companyFormData.append('subject', `[COMPANY COPY] Cost Estimate - ${formData.get('client_name')}`);
+    companyFormData.append('from_name', 'L.F Digital Solutions - Cost Estimate');
+    companyFormData.append('email', 'lf.digitalsolutions.official@gmail.com');
+    companyFormData.append('message', message);
+    companyFormData.append('company_signature', companySignature);
+    companyFormData.append('client_signature', clientSignature);
+    
+    await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: companyFormData
+    });
+}
+
+function showToast(type, message) {
     const container = document.getElementById('toast-container');
-    if (!container) return;
-    
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     
@@ -320,49 +437,14 @@ NOTE: Signature is included as attachment
     const title = type === 'success' ? 'Success!' : 'Error';
     
     toast.innerHTML = `
-      <div class="toast-icon">${icon}</div>
-      <div class="toast-content">
-        <div class="toast-title">${title}</div>
-        <div>${message}</div>
-      </div>
-      <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div>${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
     `;
     
     container.appendChild(toast);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-      if (toast.parentElement) {
-        toast.remove();
-      }
-    }, 5000);
-  }
-}
-
-// Package card toggle helper
-function togglePackage(packageId) {
-  const checkbox = document.getElementById(packageId);
-  if (checkbox) {
-    checkbox.checked = !checkbox.checked;
-    checkbox.dispatchEvent(new Event('change'));
-    
-    // Update card visual state
-    const card = checkbox.closest('.package-card');
-    if (card) {
-      if (checkbox.checked) {
-        card.classList.add('selected');
-      } else {
-        card.classList.remove('selected');
-      }
-    }
-  }
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    new CostEstimateForm();
-  });
-} else {
-  new CostEstimateForm();
+    setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
 }
