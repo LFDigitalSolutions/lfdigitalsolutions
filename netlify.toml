@@ -4,7 +4,12 @@
   status = 200
 
 [[redirects]]
+  from = "/cost-summary"
+  to = "/cost-summary.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = {path = ["!/*.*", "!/cost-estimate"]}
+  conditions = {path = ["!/*.*", "!/cost-estimate", "!/cost-summary"]}

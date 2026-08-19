@@ -3,30 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
     <title>Web Development Service Cost Estimate | L.F Digital Solutions</title>
-    <meta name="description" content="Comprehensive cost estimate for web development services from L.F Digital Solutions">
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/LOGOTAB.png">
-    
-    <!-- CSS Files -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/variables.css">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Signature Pad Library -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Outfit', sans-serif;
@@ -41,7 +25,6 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
         }
         
         .estimate-header {
@@ -62,14 +45,16 @@
             opacity: 0.9;
         }
         
-        .estimate-header .doc-number {
-            font-size: 12px;
-            margin-top: 12px;
-            opacity: 0.8;
-        }
-        
         .estimate-body {
             padding: 40px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #1E3A8A;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
         
         .form-section {
@@ -89,7 +74,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 20px;
         }
         
         .form-group {
@@ -130,12 +114,11 @@
             font-weight: bold;
         }
         
-        /* Service Table Styles */
+        /* Services Table */
         .services-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            background: white;
         }
         
         .services-table thead {
@@ -178,10 +161,6 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
-        }
-        
-        .service-name {
-            font-weight: 500;
         }
         
         /* Package Cards */
@@ -247,7 +226,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 12px;
-            margin-bottom: 20px;
         }
         
         .checkbox-item {
@@ -277,92 +255,6 @@
             font-size: 14px;
             color: #334155;
             flex: 1;
-        }
-        
-        /* Signature Pad */
-        .signature-wrapper {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            background: #f8fafc;
-        }
-        
-        .signature-pad-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            border: 2px dashed #cbd5e1;
-            border-radius: 8px;
-            background: white;
-            margin-bottom: 12px;
-        }
-        
-        #signature-canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-        }
-        
-        .signature-controls {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Outfit', sans-serif;
-        }
-        
-        .btn-clear {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .btn-clear:hover {
-            background: #dc2626;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
-            color: white;
-            padding: 16px 40px;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
-        }
-        
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .back-link {
-            display: inline-block;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        
-        .back-link:hover {
-            background: rgba(255, 255, 255, 0.2);
         }
         
         /* Cost Summary */
@@ -398,6 +290,36 @@
             color: #1E3A8A;
         }
         
+        /* Button */
+        .btn {
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .toast-container {
             position: fixed;
             top: 20px;
@@ -416,13 +338,6 @@
             align-items: flex-start;
             gap: 12px;
             animation: slideIn 0.3s ease-out;
-        }
-        
-        .toast.success {
-            border-left: 4px solid #10b981;
-        }
-        
-        .toast.error {
             border-left: 4px solid #ef4444;
         }
         
@@ -474,15 +389,6 @@
             .packages-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .toast-container {
-                left: 10px;
-                right: 10px;
-            }
-            
-            .toast {
-                min-width: auto;
-            }
         }
     </style>
 </head>
@@ -492,11 +398,11 @@
             <h1>L.F DIGITAL SOLUTIONS</h1>
             <p>Web Development • Digital Solutions • Design Services</p>
             <p style="margin-top: 16px; font-size: 16px; font-weight: 600;">WEB DEVELOPMENT SERVICE COST ESTIMATE</p>
-            <p class="doc-number">DOCUMENT NO.: LFDS-CE-2026-<span id="doc-number"></span></p>
+            <p style="font-size: 13px; margin-top: 8px;">(Proposal & Quotation)</p>
         </div>
         
         <div class="estimate-body">
-            <a href="/" class="back-link" style="color: #1E3A8A;">← Back to Home</a>
+            <a href="/" class="back-link">← Back to Home</a>
             
             <form id="cost-estimate-form">
                 <!-- Client Information -->
@@ -542,344 +448,366 @@
                     </div>
                 </div>
                 
-                <!-- Table 1: Development Services (30+ services) -->
+                <!-- TABLE 1: Design & Development Fee Statement -->
                 <div class="form-section">
-                    <h2 class="section-title">Table 1: Standalone Development Services</h2>
+                    <h2 class="section-title">TABLE 1: Design & Development Fee Statement</h2>
                     <table class="services-table">
                         <thead>
                             <tr>
-                                <th style="width: 60px;">Select</th>
-                                <th>Service Description</th>
-                                <th style="width: 120px;">Price</th>
+                                <th style="width: 60px;"></th>
+                                <th>SERVICE</th>
+                                <th>DESCRIPTION</th>
+                                <th style="width: 120px;">STARTING PRICE</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="1000" name="service_landing_page"></td>
-                                <td class="service-name">Landing Page (Single Page Website)</td>
+                                <td>✓</td>
+                                <td>Initial Online Consultation</td>
+                                <td>Online discussion of the project idea</td>
+                                <td>FREE</td>
+                            </tr>
+                            <tr>
+                                <td>✓</td>
+                                <td>Project Kick-off Meeting</td>
+                                <td>Finalize requirements, sign documents</td>
+                                <td>FREE (Online)</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="100" name="service_additional_consultation"></td>
+                                <td>Additional Consultation</td>
+                                <td>Extra consultation after completion</td>
+                                <td>₱100 / hour</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="1000" name="service_planning"></td>
+                                <td>Website Planning & Wireframing</td>
+                                <td>Sitemap, user flow, planning documents</td>
                                 <td>₱1,000</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_portfolio"></td>
-                                <td class="service-name">Personal Portfolio Website</td>
-                                <td>₱3,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_blog"></td>
-                                <td class="service-name">Blog / Content Website (Multi-page)</td>
-                                <td>₱5,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="8000" name="service_business_site"></td>
-                                <td class="service-name">Business Website (5-10 pages)</td>
-                                <td>₱8,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="15000" name="service_ecommerce"></td>
-                                <td class="service-name">E-commerce Website (Online Store)</td>
-                                <td>₱15,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="20000" name="service_booking"></td>
-                                <td class="service-name">Booking / Reservation System</td>
-                                <td>₱20,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="12000" name="service_inventory"></td>
-                                <td class="service-name">Inventory Management System</td>
-                                <td>₱12,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="18000" name="service_pos"></td>
-                                <td class="service-name">Point of Sale (POS) System</td>
-                                <td>₱18,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="25000" name="service_crm"></td>
-                                <td class="service-name">Customer Relationship Management (CRM)</td>
-                                <td>₱25,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="30000" name="service_hrms"></td>
-                                <td class="service-name">Human Resource Management System (HRMS)</td>
-                                <td>₱30,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="15000" name="service_lms"></td>
-                                <td class="service-name">Learning Management System (LMS)</td>
-                                <td>₱15,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="10000" name="service_cms"></td>
-                                <td class="service-name">Content Management System (CMS)</td>
-                                <td>₱10,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="22000" name="service_erp"></td>
-                                <td class="service-name">Enterprise Resource Planning (ERP) - Basic</td>
-                                <td>₱22,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_responsive"></td>
-                                <td class="service-name">Responsive Design (Mobile-Friendly)</td>
-                                <td>₱5,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="8000" name="service_uiux"></td>
-                                <td class="service-name">UI/UX Design Services</td>
-                                <td>₱8,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_logo"></td>
-                                <td class="service-name">Logo Design</td>
-                                <td>₱3,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_branding"></td>
-                                <td class="service-name">Brand Identity Package</td>
-                                <td>₱5,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="4000" name="service_api"></td>
-                                <td class="service-name">API Integration (Third-party services)</td>
-                                <td>₱4,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="6000" name="service_payment"></td>
-                                <td class="service-name">Payment Gateway Integration</td>
-                                <td>₱6,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_analytics"></td>
-                                <td class="service-name">Analytics & Tracking Setup</td>
-                                <td>₱3,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="4000" name="service_seo"></td>
-                                <td class="service-name">SEO Optimization (Basic)</td>
-                                <td>₱4,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_security"></td>
-                                <td class="service-name">Security Implementation (SSL, Authentication)</td>
-                                <td>₱5,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="7000" name="service_admin"></td>
-                                <td class="service-name">Admin Panel Development</td>
-                                <td>₱7,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="6000" name="service_dashboard"></td>
-                                <td class="service-name">Dashboard & Reports Module</td>
-                                <td>₱6,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="4000" name="service_email"></td>
-                                <td class="service-name">Email System / Newsletter Setup</td>
-                                <td>₱4,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_chat"></td>
-                                <td class="service-name">Live Chat / Chatbot Integration</td>
-                                <td>₱5,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="8000" name="service_migration"></td>
-                                <td class="service-name">Website Migration / Transfer</td>
-                                <td>₱8,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_training"></td>
-                                <td class="service-name">Training & Documentation</td>
-                                <td>₱3,000</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_hosting"></td>
-                                <td class="service-name">Website Hosting Setup (1 Year)</td>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_uiux"></td>
+                                <td>UI/UX Design</td>
+                                <td>Modern responsive interface</td>
                                 <td>₱2,000</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="1500" name="service_domain"></td>
-                                <td class="service-name">Domain Registration (1 Year)</td>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_graphic"></td>
+                                <td>Graphic Assets</td>
+                                <td>Icons, banners, editing, illustrations</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_frontend"></td>
+                                <td>Front-End Development</td>
+                                <td>Responsive HTML/CSS/JS</td>
+                                <td>₱5,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="10000" name="service_backend"></td>
+                                <td>Back-End Development</td>
+                                <td>Database & System Functions</td>
+                                <td>₱10,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="10000" name="service_admin"></td>
+                                <td>Administration Panel</td>
+                                <td>Dashboard, user management, settings</td>
+                                <td>₱10,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_login"></td>
+                                <td>Login System</td>
+                                <td>Authentication & Roles</td>
+                                <td>₱3,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="1500" name="service_contact"></td>
+                                <td>Contact Forms</td>
+                                <td>Inquiry Forms</td>
                                 <td>₱1,500</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_gallery"></td>
+                                <td>Gallery Module</td>
+                                <td>Images & Albums</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_blog"></td>
+                                <td>Blog/News Module</td>
+                                <td>CMS</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_booking"></td>
+                                <td>Appointment Booking</td>
+                                <td>Scheduling System</td>
+                                <td>₱5,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_inventory"></td>
+                                <td>Inventory System</td>
+                                <td>Product inventory management, CRUD</td>
+                                <td>₱5,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_pos"></td>
+                                <td>Point of Sale (POS)</td>
+                                <td>Sales & Receipts</td>
+                                <td>₱5,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="service_mapping"></td>
+                                <td>Mapping / GPS</td>
+                                <td>Google Maps Integration</td>
+                                <td>₱5,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_reports"></td>
+                                <td>Reports</td>
+                                <td>PDF / Excel Reports</td>
+                                <td>₱3,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_email"></td>
+                                <td>Email Notifications</td>
+                                <td>Automated Emails</td>
+                                <td>₱3,000</td>
+                            </tr>
+                            <tr>
+                                <td>✓</td>
+                                <td>Responsive Mobile Optimization</td>
+                                <td>Mobile Friendly</td>
+                                <td>Included</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="3000" name="service_speed"></td>
+                                <td>Speed Optimization</td>
+                                <td>Performance Improvements</td>
+                                <td>₱3,000</td>
+                            </tr>
+                            <tr>
+                                <td>✓</td>
+                                <td>Testing & QA</td>
+                                <td>Debugging</td>
+                                <td>Included</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_deployment"></td>
+                                <td>Deployment</td>
+                                <td>Upload to Hosting</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="service_documentation"></td>
+                                <td>Documentation</td>
+                                <td>User Manual</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
+                                <td>✓</td>
+                                <td>Training</td>
+                                <td>2-hour walkthrough</td>
+                                <td>Included</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Table 2: Website Packages -->
+                <!-- TABLE 2: Website Package Pricing -->
                 <div class="form-section">
-                    <h2 class="section-title">Table 2: Website Development Packages</h2>
+                    <h2 class="section-title">TABLE 2: Website Package Pricing</h2>
                     <div class="packages-grid">
                         <div class="package-card" onclick="togglePackage('pkg_starter')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_starter" data-price="1000" name="pkg_starter">
-                            <div class="package-name">Starter Website</div>
+                            <div class="package-name">Starter</div>
                             <div class="package-price">₱1,000</div>
-                            <div class="package-description">Perfect for individuals or small projects. Single-page responsive design with contact form.</div>
+                            <div class="package-description">Portfolio, Resume website, Landing page, One-page website</div>
                         </div>
                         
                         <div class="package-card" onclick="togglePackage('pkg_basic')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_basic" data-price="5000" name="pkg_basic">
-                            <div class="package-name">Basic Business Website</div>
+                            <div class="package-name">Basic Business</div>
                             <div class="package-price">₱5,000</div>
-                            <div class="package-description">3-5 pages, mobile responsive, contact forms, basic SEO, social media integration.</div>
+                            <div class="package-description">Small Businesses & Startups</div>
                         </div>
                         
                         <div class="package-card" onclick="togglePackage('pkg_professional')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_professional" data-price="15000" name="pkg_professional">
-                            <div class="package-name">Professional Website</div>
+                            <div class="package-name">Professional</div>
                             <div class="package-price">₱15,000</div>
-                            <div class="package-description">Up to 10 pages, custom design, CMS, blog, advanced SEO, analytics integration.</div>
+                            <div class="package-description">Growing Businesses</div>
                         </div>
                         
                         <div class="package-card" onclick="togglePackage('pkg_business_pro')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_business_pro" data-price="30000" name="pkg_business_pro">
                             <div class="package-name">Business Pro</div>
                             <div class="package-price">₱30,000</div>
-                            <div class="package-description">Unlimited pages, e-commerce ready, booking system, payment integration, advanced features.</div>
+                            <div class="package-description">Businesses with Inventory & Reporting Needs</div>
                         </div>
                         
                         <div class="package-card" onclick="togglePackage('pkg_enterprise')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_enterprise" data-price="50000" name="pkg_enterprise">
-                            <div class="package-name">Enterprise Solution</div>
-                            <div class="package-price">₱50,000+</div>
-                            <div class="package-description">Full-scale custom solution, complex systems, API development, dedicated support.</div>
+                            <div class="package-name">Enterprise</div>
+                            <div class="package-price">₱50,000</div>
+                            <div class="package-description">Large Businesses & Organizations</div>
                         </div>
                         
                         <div class="package-card" onclick="togglePackage('pkg_agricultural')">
                             <input type="checkbox" class="package-checkbox service-checkbox" id="pkg_agricultural" data-price="50000" name="pkg_agricultural">
-                            <div class="package-name">Agricultural System</div>
+                            <div class="package-name">Agricultural Management System</div>
                             <div class="package-price">₱50,000</div>
-                            <div class="package-description">Specialized system for agricultural businesses with inventory, tracking, and analytics.</div>
+                            <div class="package-description">Farms, Cooperatives & Agri-Businesses</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Table 3: Optional Add-ons -->
+                <!-- TABLE 3: Optional Add-ons -->
                 <div class="form-section">
-                    <h2 class="section-title">Table 3: Optional Add-ons & Enhancements</h2>
+                    <h2 class="section-title">TABLE 3: Optional Add-ons</h2>
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="5000" name="addon_multivendor" id="addon_multivendor">
-                            <label for="addon_multivendor">Multi-vendor Support - ₱5,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="addon_additional_page" id="addon_additional_page">
+                            <label for="addon_additional_page">Additional Page - ₱1,000</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="4000" name="addon_membership" id="addon_membership">
-                            <label for="addon_membership">Membership System - ₱4,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1500" name="addon_extra_revision" id="addon_extra_revision">
+                            <label for="addon_extra_revision">Extra Revision Round - ₱1,500</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="3000" name="addon_multilingual" id="addon_multilingual">
-                            <label for="addon_multilingual">Multi-language Support - ₱3,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="500" name="addon_logo" id="addon_logo">
+                            <label for="addon_logo">Logo Design - ₱500</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="6000" name="addon_custom_module" id="addon_custom_module">
-                            <label for="addon_custom_module">Custom Module/Feature - ₱6,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="addon_business_card" id="addon_business_card">
+                            <label for="addon_business_card">Business Card Design - ₱1,000</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="4000" name="addon_social_login" id="addon_social_login">
-                            <label for="addon_social_login">Social Login Integration - ₱4,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="addon_social_templates" id="addon_social_templates">
+                            <label for="addon_social_templates">Social Media Templates - ₱1,000</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="5000" name="addon_advanced_analytics" id="addon_advanced_analytics">
-                            <label for="addon_advanced_analytics">Advanced Analytics Dashboard - ₱5,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="addon_email_setup" id="addon_email_setup">
+                            <label for="addon_email_setup">Email Setup - ₱1,000</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="7000" name="addon_mobile_app" id="addon_mobile_app">
-                            <label for="addon_mobile_app">Mobile App Integration - ₱7,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="0" name="addon_domain" id="addon_domain">
+                            <label for="addon_domain">Domain Assistance - FREE</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="3000" name="addon_backup" id="addon_backup">
-                            <label for="addon_backup">Automated Backup System - ₱3,000</label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="addon_hosting_setup" id="addon_hosting_setup">
+                            <label for="addon_hosting_setup">Hosting Setup - ₱1,000</label>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Table 4: Maintenance Plans -->
+                <!-- TABLE 4: Monthly Maintenance Plans -->
                 <div class="form-section">
-                    <h2 class="section-title">Table 4: Maintenance & Support Plans (Monthly)</h2>
+                    <h2 class="section-title">TABLE 4: Monthly Maintenance Plans</h2>
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="1500" name="maintenance_basic" id="maintenance_basic">
-                            <label for="maintenance_basic">Basic Plan - ₱1,500/month<br><small style="color: #64748b;">Bug fixes, security updates, monthly backup</small></label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="maintenance_basic" id="maintenance_basic">
+                            <label for="maintenance_basic">Basic - ₱1,000/month<br><small style="color: #64748b;">Personal & Portfolio Websites</small></label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="3000" name="maintenance_standard" id="maintenance_standard">
-                            <label for="maintenance_standard">Standard Plan - ₱3,000/month<br><small style="color: #64748b;">Basic + content updates, performance monitoring</small></label>
+                            <input type="checkbox" class="service-checkbox" data-price="1000" name="maintenance_standard" id="maintenance_standard">
+                            <label for="maintenance_standard">Standard - ₱1,000/month<br><small style="color: #64748b;">Small Business Websites</small></label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" class="service-checkbox" data-price="5000" name="maintenance_premium" id="maintenance_premium">
-                            <label for="maintenance_premium">Premium Plan - ₱5,000/month<br><small style="color: #64748b;">Standard + priority support, feature enhancements</small></label>
+                            <label for="maintenance_premium">Premium - ₱5,000/month<br><small style="color: #64748b;">Business Websites & E-commerce</small></label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" class="service-checkbox" data-price="10000" name="maintenance_enterprise" id="maintenance_enterprise">
-                            <label for="maintenance_enterprise">Enterprise Plan - ₱10,000/month<br><small style="color: #64748b;">Premium + dedicated support, custom development</small></label>
+                            <input type="checkbox" class="service-checkbox" data-price="0" name="maintenance_enterprise" id="maintenance_enterprise">
+                            <label for="maintenance_enterprise">Enterprise - By Quotation<br><small style="color: #64748b;">Large Business Systems</small></label>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Project Details & Requirements -->
+                <!-- Project Details -->
                 <div class="form-section">
                     <h2 class="section-title">Project Details & Requirements</h2>
                     
                     <div class="form-group">
-                        <label class="form-label">Target Audience</label>
+                        <label class="form-label">Project Description</label>
+                        <textarea name="project_description" class="form-textarea" rows="5" placeholder="Briefly describe your project and its purpose..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Required Features</label>
                         <div class="checkbox-grid">
                             <div class="checkbox-item">
-                                <input type="checkbox" name="audience_consumers" id="audience_consumers">
-                                <label for="audience_consumers">General Consumers</label>
+                                <input type="checkbox" name="feature_user_login" id="feature_user_login">
+                                <label for="feature_user_login">User Login</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="audience_business" id="audience_business">
-                                <label for="audience_business">Business/Corporate</label>
+                                <input type="checkbox" name="feature_admin_dashboard" id="feature_admin_dashboard">
+                                <label for="feature_admin_dashboard">Admin Dashboard</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="audience_students" id="audience_students">
-                                <label for="audience_students">Students/Academic</label>
+                                <input type="checkbox" name="feature_user_management" id="feature_user_management">
+                                <label for="feature_user_management">User Management</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="audience_government" id="audience_government">
-                                <label for="audience_government">Government</label>
+                                <input type="checkbox" name="feature_inventory" id="feature_inventory">
+                                <label for="feature_inventory">Inventory</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_reports" id="feature_reports">
+                                <label for="feature_reports">Reports</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_booking" id="feature_booking">
+                                <label for="feature_booking">Appointment/Booking</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_forms" id="feature_forms">
+                                <label for="feature_forms">Online Forms</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_gallery" id="feature_gallery">
+                                <label for="feature_gallery">Gallery</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_contact" id="feature_contact">
+                                <label for="feature_contact">Contact Form</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_responsive" id="feature_responsive">
+                                <label for="feature_responsive">Responsive Design</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="feature_database" id="feature_database">
+                                <label for="feature_database">Database</label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Design Preferences</label>
+                        <label class="form-label">Preferred Style</label>
                         <div class="checkbox-grid">
                             <div class="checkbox-item">
-                                <input type="checkbox" name="design_modern" id="design_modern">
-                                <label for="design_modern">Modern & Minimalist</label>
+                                <input type="checkbox" name="style_minimalist" id="style_minimalist">
+                                <label for="style_minimalist">Minimalist</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="design_colorful" id="design_colorful">
-                                <label for="design_colorful">Colorful & Creative</label>
+                                <input type="checkbox" name="style_modern" id="style_modern">
+                                <label for="style_modern">Modern</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="design_professional" id="design_professional">
-                                <label for="design_professional">Professional & Corporate</label>
+                                <input type="checkbox" name="style_professional" id="style_professional">
+                                <label for="style_professional">Professional</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="design_custom" id="design_custom">
-                                <label for="design_custom">Custom Design</label>
+                                <input type="checkbox" name="style_corporate" id="style_corporate">
+                                <label for="style_corporate">Corporate</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="style_creative" id="style_creative">
+                                <label for="style_creative">Creative</label>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Timeline Preference</label>
-                        <select name="timeline" class="form-select">
-                            <option value="">Select timeline...</option>
-                            <option value="urgent">Urgent (1-2 weeks)</option>
-                            <option value="standard">Standard (3-4 weeks)</option>
-                            <option value="relaxed">Relaxed (1-2 months)</option>
-                            <option value="flexible">Flexible</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Additional Requirements</label>
-                        <textarea name="requirements" class="form-textarea" rows="6" placeholder="Please describe any specific features, functionality, or requirements for your project..."></textarea>
                     </div>
                 </div>
                 
@@ -891,35 +819,16 @@
                         <span id="subtotal-amount">₱0</span>
                     </div>
                     <div class="cost-line total">
-                        <span>TOTAL PROJECT COST:</span>
+                        <span>TOTAL ESTIMATED COST:</span>
                         <span id="total-amount">₱0</span>
                     </div>
                     <p style="font-size: 12px; color: #64748b; margin-top: 12px;">
-                        *This is an estimated cost based on your selections. Final pricing will be confirmed after project discussion.
+                        *This is a preliminary estimate. Click "Continue to Cost Summary" to review and finalize your quotation.
                     </p>
                 </div>
                 
-                <!-- Client Signature -->
-                <div class="form-section">
-                    <h2 class="section-title">Client Acknowledgment & Signature</h2>
-                    <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">
-                        By signing below, you acknowledge that you have reviewed the selected services and estimated costs. 
-                        This is a preliminary estimate and not a final contract.
-                    </p>
-                    
-                    <div class="signature-wrapper">
-                        <div class="signature-pad-container">
-                            <canvas id="signature-canvas"></canvas>
-                        </div>
-                        <div class="signature-controls">
-                            <button type="button" class="btn btn-clear" id="clear-signature">Clear Signature</button>
-                            <span style="font-size: 13px; color: #64748b;">Sign above with your mouse or finger</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" id="submit-btn">
-                    Submit Cost Estimate Request
+                <button type="submit" class="btn btn-primary" id="continue-btn">
+                    Continue to Cost Summary & Payment Authorization
                 </button>
             </form>
         </div>
@@ -927,6 +836,131 @@
     
     <div class="toast-container" id="toast-container"></div>
     
-    <script src="js/cost-estimate.js"></script>
+    <script>
+        // Package toggle helper
+        function togglePackage(packageId) {
+            const checkbox = document.getElementById(packageId);
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                checkbox.dispatchEvent(new Event('change'));
+                
+                const card = checkbox.closest('.package-card');
+                if (card) {
+                    if (checkbox.checked) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                }
+            }
+        }
+        
+        // Cost calculation
+        let totalAmount = 0;
+        
+        function calculateTotal() {
+            let total = 0;
+            const checkboxes = document.querySelectorAll('.service-checkbox:checked');
+            checkboxes.forEach(checkbox => {
+                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                total += price;
+            });
+            
+            totalAmount = total;
+            document.getElementById('subtotal-amount').textContent = `₱${formatNumber(total)}`;
+            document.getElementById('total-amount').textContent = `₱${formatNumber(total)}`;
+        }
+        
+        function formatNumber(num) {
+            return num.toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+        
+        // Listen to all checkboxes
+        document.querySelectorAll('.service-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', calculateTotal);
+        });
+        
+        // Form submission - Save data and go to summary page
+        document.getElementById('cost-estimate-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate at least one service selected
+            const selectedServices = document.querySelectorAll('.service-checkbox:checked');
+            if (selectedServices.length === 0) {
+                showToast('error', 'Please select at least one service or package');
+                return;
+            }
+            
+            // Collect all form data
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Add selected services
+            const services = [];
+            selectedServices.forEach(checkbox => {
+                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                const name = getServiceName(checkbox);
+                services.push({ name, price });
+            });
+            
+            data.services = services;
+            data.total_cost = totalAmount;
+            
+            // Save to sessionStorage
+            sessionStorage.setItem('costEstimateData', JSON.stringify(data));
+            
+            // Redirect to summary page
+            window.location.href = 'cost-summary.html';
+        });
+        
+        function getServiceName(checkbox) {
+            const row = checkbox.closest('tr');
+            if (row) {
+                const cells = row.querySelectorAll('td');
+                if (cells[1]) return cells[1].textContent.trim();
+            }
+            
+            const packageCard = checkbox.closest('.package-card');
+            if (packageCard) {
+                const packageName = packageCard.querySelector('.package-name');
+                if (packageName) return packageName.textContent.trim();
+            }
+            
+            const checkboxItem = checkbox.closest('.checkbox-item');
+            if (checkboxItem) {
+                const label = checkboxItem.querySelector('label');
+                if (label) return label.textContent.split(' - ₱')[0].trim();
+            }
+            
+            return checkbox.name.replace(/_/g, ' ');
+        }
+        
+        function showToast(type, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? '✓' : '✕';
+            const title = type === 'success' ? 'Success!' : 'Error';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icon}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div>${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+        }
+        
+        // Initial calculation
+        calculateTotal();
+    </script>
 </body>
 </html>

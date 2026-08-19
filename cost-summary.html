@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Cost Summary & Payment Authorization | L.F Digital Solutions</title>
+    <link rel="icon" type="image/png" href="assets/LOGOTAB.png">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Signature Pad Library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .summary-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .summary-header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .summary-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .summary-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .summary-header .subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+        
+        .summary-body {
+            padding: 40px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #1E3A8A;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1E3A8A;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .info-value {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .cost-table thead {
+            background: #0f766e;
+            color: white;
+        }
+        
+        .cost-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .cost-table tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .cost-table td {
+            padding: 12px;
+            font-size: 14px;
+            color: #334155;
+        }
+        
+        .cost-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .cost-table .subtotal-row {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+        
+        .cost-table .total-row {
+            background: #0f766e;
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+        }
+        
+        .total-display {
+            background: #f0f7ff;
+            padding: 24px;
+            border-radius: 12px;
+            border: 2px solid #1E3A8A;
+            margin-bottom: 20px;
+        }
+        
+        .total-display .amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1E3A8A;
+            margin-bottom: 8px;
+        }
+        
+        .total-display .amount-words {
+            font-size: 14px;
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .discount-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .checkbox-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        
+        .checkbox-list label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #334155;
+        }
+        
+        .checkbox-list input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            margin-top: 8px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1E3A8A;
+        }
+        
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .payment-table thead {
+            background: #0f766e;
+            color: white;
+        }
+        
+        .payment-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        
+        .payment-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        
+        .payment-table .amount-cell {
+            font-weight: 600;
+            color: #1E3A8A;
+        }
+        
+        .conditions-box {
+            background: #fffbeb;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .conditions-box h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+        
+        .conditions-box ul {
+            list-style: disc;
+            padding-left: 24px;
+        }
+        
+        .conditions-box li {
+            font-size: 14px;
+            color: #78350f;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .authorization-box {
+            background: #f0f9ff;
+            border: 2px solid #0284c7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .authorization-box h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0c4a6e;
+            margin-bottom: 12px;
+        }
+        
+        .authorization-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .authorization-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .authorization-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .authorization-item label {
+            font-size: 14px;
+            color: #0c4a6e;
+            flex: 1;
+            cursor: pointer;
+        }
+        
+        .acknowledgment-box {
+            background: #fefce8;
+            border: 2px solid #ca8a04;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .acknowledgment-box p {
+            font-size: 14px;
+            color: #713f12;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .signatures-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .signature-box {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .signature-box h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .signature-pad-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            margin-bottom: 12px;
+        }
+        
+        .signature-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .signature-info {
+            margin-top: 12px;
+        }
+        
+        .signature-info input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .signature-info label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        .btn-clear {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-clear:hover {
+            background: #dc2626;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.2s;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            min-width: 300px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .toast-icon {
+            font-size: 24px;
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .summary-body {
+                padding: 20px;
+            }
+            
+            .summary-header {
+                padding: 30px 20px;
+            }
+            
+            .summary-header h1 {
+                font-size: 22px;
+            }
+            
+            .signatures-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="summary-container">
+        <div class="summary-header">
+            <h1>L.F DIGITAL SOLUTIONS</h1>
+            <p>Web Development • Digital Solutions • Design Services</p>
+            <p class="subtitle">PROJECT COST SUMMARY & PAYMENT AUTHORIZATION</p>
+            <p style="font-size: 13px; margin-top: 8px; opacity: 0.8;">Client Approval & Payment Schedule</p>
+            <p style="font-size: 11px; margin-top: 12px; opacity: 0.7;">DOCUMENT NO.: LFDS-PCS-2026-<span id="doc-number"></span></p>
+            <p style="font-size: 11px; opacity: 0.7;">DATE ISSUED: <span id="date-issued"></span></p>
+        </div>
+        
+        <div class="summary-body">
+            <a href="cost-estimate.html" class="back-link">← Back to Cost Estimate</a>
+            
+            <!-- Client Information -->
+            <div class="section">
+                <h2 class="section-title">CLIENT INFORMATION</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Client Name</div>
+                        <div class="info-value" id="client-name">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Company/Organization</div>
+                        <div class="info-value" id="company">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Project Name</div>
+                        <div class="info-value" id="project-name">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Project Type</div>
+                        <div class="info-value" id="project-type">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contact Number</div>
+                        <div class="info-value" id="phone">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email Address</div>
+                        <div class="info-value" id="email">-</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Approved Project Cost -->
+            <div class="section">
+                <h2 class="section-title">APPROVED PROJECT COST</h2>
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                    This document summarizes the final project costs based on the approved Web Development Service Cost Estimate and the requirements agreed upon by the Client and L.F Digital Solutions.
+                </p>
+                
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th style="width: 150px; text-align: right;">AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-breakdown">
+                        <!-- Services will be inserted here -->
+                    </tbody>
+                    <tbody>
+                        <tr class="subtotal-row">
+                            <td>SUBTOTAL</td>
+                            <td style="text-align: right;" id="subtotal-display">₱0</td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td style="text-align: right; color: #ef4444;">- ₱<span id="discount-display">0</span></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td>TOTAL PROJECT COST</td>
+                            <td style="text-align: right;" id="total-display">₱0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="total-display">
+                    <div style="font-size: 14px; color: #64748b; margin-bottom: 8px;">TOTAL PROJECT COST:</div>
+                    <div class="amount" id="total-amount-large">₱0</div>
+                    <div class="amount-words">Amount in Words: <span id="amount-words"></span></div>
+                </div>
+            </div>
+            
+            <!-- Discount Section -->
+            <div class="section">
+                <div class="discount-section">
+                    <h3 style="font-size: 15px; font-weight: 700; color: #1E3A8A; margin-bottom: 12px;">DISCOUNT APPLIED (If applicable)</h3>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #334155;">Discount Type:</label>
+                        <input type="text" class="form-input" id="discount-type" placeholder="e.g., Returning Client">
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #334155;">Discount Amount (₱):</label>
+                        <input type="number" class="form-input" id="discount-amount" placeholder="0" min="0">
+                    </div>
+                    
+                    <div class="checkbox-list">
+                        <label><input type="checkbox" name="discount_returning"> Returning Client</label>
+                        <label><input type="checkbox" name="discount_referral"> Referral</label>
+                        <label><input type="checkbox" name="discount_academic"> Academic / Student Discount</label>
+                        <label><input type="checkbox" name="discount_special"> Special Client Discount</label>
+                    </div>
+                    
+                    <p style="font-size: 11px; color: #64748b; margin-top: 12px; font-style: italic;">
+                        Note: Discounts are granted at the discretion of L.F Digital Solutions and do not automatically apply to future projects or services.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Payment Schedule -->
+            <div class="section">
+                <h2 class="section-title">PAYMENT SCHEDULE</h2>
+                <table class="payment-table">
+                    <thead>
+                        <tr>
+                            <th>PAYMENT</th>
+                            <th style="width: 100px;">PERCENTAGE</th>
+                            <th style="width: 150px;">AMOUNT</th>
+                            <th>DUE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Initial / Down Payment</td>
+                            <td>50%</td>
+                            <td class="amount-cell" id="payment-50">₱0</td>
+                            <td>Upon project confirmation</td>
+                        </tr>
+                        <tr>
+                            <td>Development Milestone</td>
+                            <td>30%</td>
+                            <td class="amount-cell" id="payment-30">₱0</td>
+                            <td>Upon agreed milestone</td>
+                        </tr>
+                        <tr>
+                            <td>Final Payment</td>
+                            <td>20%</td>
+                            <td class="amount-cell" id="payment-20">₱0</td>
+                            <td>Before final turnover</td>
+                        </tr>
+                        <tr style="background: #f8fafc; font-weight: 600;">
+                            <td>TOTAL</td>
+                            <td>100%</td>
+                            <td class="amount-cell" id="payment-total">₱0</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Payment Conditions -->
+            <div class="conditions-box">
+                <h4>PAYMENT CONDITIONS</h4>
+                <ul>
+                    <li>The Client acknowledges and agrees to the total project cost and payment schedule stated in this document.</li>
+                    <li>The required initial payment must be received before development officially begins.</li>
+                    <li>Project timelines shall commence upon confirmation of the required initial payment and completion of the necessary project documents.</li>
+                    <li>Payments shall be made through the payment method designated by L.F Digital Solutions.</li>
+                    <li>Any additional work, features, services, or changes outside the approved project scope may require a separate quotation and payment.</li>
+                </ul>
+            </div>
+            
+            <!-- Project Authorization -->
+            <div class="authorization-box">
+                <h4>PROJECT AUTHORIZATION</h4>
+                <p style="font-size: 13px; color: #0c4a6e; margin-bottom: 12px;">This document confirms that the Client has:</p>
+                <div class="authorization-list">
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-1" required>
+                        <label for="auth-1">Reviewed the approved Cost Estimate</label>
+                    </div>
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-2" required>
+                        <label for="auth-2">Reviewed the project scope and deliverables</label>
+                    </div>
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-3" required>
+                        <label for="auth-3">Confirmed the total project cost</label>
+                    </div>
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-4" required>
+                        <label for="auth-4">Confirmed the payment schedule</label>
+                    </div>
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-5" required>
+                        <label for="auth-5">Acknowledged the applicable terms and conditions</label>
+                    </div>
+                    <div class="authorization-item">
+                        <input type="checkbox" id="auth-6" required>
+                        <label for="auth-6">Authorized L.F Digital Solutions to proceed upon receipt of the required initial payment</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Client Acknowledgment -->
+            <div class="acknowledgment-box">
+                <h3 style="font-size: 16px; font-weight: 700; color: #854d0e; margin-bottom: 12px;">CLIENT ACKNOWLEDGMENT</h3>
+                <p>
+                    By signing below, the Client confirms that they have reviewed and understood the total project cost, applicable discount, payment schedule, and payment conditions stated in this document.
+                </p>
+                <p>
+                    The Client acknowledges that this document corresponds to the approved project quotation and authorizes L.F Digital Solutions to proceed with the project upon completion of the required documentation and receipt of the initial payment.
+                </p>
+            </div>
+            
+            <!-- Signatures -->
+            <div class="signatures-container">
+                <!-- L.F Digital Solutions Signature -->
+                <div class="signature-box">
+                    <h4>L.F DIGITAL SOLUTIONS</h4>
+                    <div class="signature-pad-container">
+                        <canvas class="signature-canvas" id="company-signature-canvas"></canvas>
+                    </div>
+                    <button type="button" class="btn-clear" onclick="clearCompanySignature()">Clear Signature</button>
+                    <div class="signature-info">
+                        <label>Authorized Signature over Printed Name</label>
+                        <input type="text" id="company-signer-name" placeholder="Co-Founder Name" required>
+                        <label style="margin-top: 8px;">Co-Founder:</label>
+                        <input type="text" id="company-cofounder" placeholder="Co-Founder" required>
+                        <label style="margin-top: 8px;">Date:</label>
+                        <input type="date" id="company-date" required>
+                    </div>
+                </div>
+                
+                <!-- Client Signature -->
+                <div class="signature-box">
+                    <h4>CLIENT</h4>
+                    <div class="signature-pad-container">
+                        <canvas class="signature-canvas" id="client-signature-canvas"></canvas>
+                    </div>
+                    <button type="button" class="btn-clear" onclick="clearClientSignature()">Clear Signature</button>
+                    <div class="signature-info">
+                        <label>Signature over Printed Name</label>
+                        <input type="text" id="client-signer-name" placeholder="Your Name" required>
+                        <label style="margin-top: 8px;">Position:</label>
+                        <input type="text" id="client-position" placeholder="e.g., Owner, Manager">
+                        <label style="margin-top: 8px;">Date:</label>
+                        <input type="date" id="client-date" required>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="button" class="btn-submit" id="submit-btn">
+                Submit Cost Summary & Authorization
+            </button>
+        </div>
+    </div>
+    
+    <div class="toast-container" id="toast-container"></div>
+    
+    <script src="js/cost-summary.js"></script>
+</body>
+</html>
