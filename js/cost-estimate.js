@@ -109,6 +109,82 @@ function calculateTotal() {
     if (finalTotal) finalTotal.textContent = `₱${formatNumber(total)}`;
     if (selectedPackageDisplay) selectedPackageDisplay.value = selectedPackage || 'None selected';
     if (estimatedBudgetDisplay) estimatedBudgetDisplay.value = `₱${formatNumber(total)}`;
+    
+    // Auto-determine project category
+    autoDetermineCategory();
+}
+
+function autoDetermineCategory() {
+    // Get checkboxes
+    const categoryBusiness = document.getElementById('category_business');
+    const categoryPortfolio = document.getElementById('category_portfolio');
+    const categoryCustom = document.getElementById('category_custom');
+    const categoryOther = document.getElementById('category_other');
+    const categoryOtherDropdown = document.getElementById('category_other_dropdown');
+    
+    // If these elements don't exist yet (page 3 not loaded), return
+    if (!categoryBusiness) return;
+    
+    // Reset all
+    categoryBusiness.checked = false;
+    categoryPortfolio.checked = false;
+    categoryCustom.checked = false;
+    categoryOther.checked = false;
+    
+    // Check selected package
+    const selectedRadio = document.querySelector('.package-radio:checked');
+    
+    if (selectedRadio) {
+        const packageValue = selectedRadio.value;
+        
+        // Starter Package → Portfolio
+        if (packageValue === 'Starter') {
+            categoryPortfolio.checked = true;
+        }
+        // Business packages → Business Website
+        else if (['Basic Business', 'Professional', 'Business Pro', 'Enterprise', 'Agricultural Management System'].includes(packageValue)) {
+            categoryBusiness.checked = true;
+        }
+    }
+    // No package selected, check if they selected services from Table 1
+    else {
+        const servicesSelected = document.querySelectorAll('.service-checkbox:checked');
+        let hasTable1Services = false;
+        
+        servicesSelected.forEach(checkbox => {
+            if (checkbox.name && checkbox.name.startsWith('service_')) {
+                hasTable1Services = true;
+            }
+        });
+        
+        if (hasTable1Services) {
+            categoryCustom.checked = true;
+        }
+    }
+    
+    // Check if add-ons from Table 3 are selected
+    const addons = document.querySelectorAll('input[name^="addon_"]:checked');
+    if (addons.length > 0) {
+        categoryOther.checked = true;
+        
+        // Populate dropdown with selected add-ons
+        categoryOtherDropdown.innerHTML = '<option value="">Selected add-ons:</option>';
+        addons.forEach(addon => {
+            const row = addon.closest('tr');
+            if (row) {
+                const addonName = row.querySelectorAll('td')[1]?.textContent.trim();
+                if (addonName) {
+                    const option = document.createElement('option');
+                    option.value = addonName;
+                    option.textContent = addonName;
+                    option.selected = true;
+                    categoryOtherDropdown.appendChild(option);
+                }
+            }
+        });
+    } else {
+        categoryOtherDropdown.innerHTML = '<option value="">Select from add-ons...</option>';
+    }
 }
 
 function formatNumber(num) {
@@ -369,12 +445,18 @@ Thank you for considering L.F Digital Solutions!
 
 function getProjectCategory(formData) {
     const categories = [];
-    if (formData.get('category_business')) categories.push('Business Website');
-    if (formData.get('category_portfolio')) categories.push('Portfolio');
-    if (formData.get('category_capstone')) categories.push('Capstone');
-    if (formData.get('category_custom')) categories.push('Custom System');
-    const other = formData.get('category_other_text');
-    if (other) categories.push(other);
+    if (document.getElementById('category_business')?.checked) categories.push('Business Website');
+    if (document.getElementById('category_portfolio')?.checked) categories.push('Portfolio');
+    if (document.getElementById('category_custom')?.checked) categories.push('Custom System');
+    if (document.getElementById('category_other')?.checked) {
+        const dropdown = document.getElementById('category_other_dropdown');
+        const selectedOptions = Array.from(dropdown.selectedOptions).map(opt => opt.value).filter(v => v);
+        if (selectedOptions.length > 0) {
+            categories.push(`Other: ${selectedOptions.join(', ')}`);
+        } else {
+            categories.push('Other');
+        }
+    }
     return categories.join(', ') || 'Not specified';
 }
 

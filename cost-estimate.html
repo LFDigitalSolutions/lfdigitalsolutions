@@ -723,12 +723,17 @@
                     <div class="form-group">
                         <label class="form-label">PROJECT CATEGORY:</label>
                         <div class="checkbox-list-inline">
-                            <label><input type="checkbox" name="category_business"> Business Website</label>
-                            <label><input type="checkbox" name="category_portfolio"> Portfolio</label>
-                            <label><input type="checkbox" name="category_capstone"> Capstone</label>
-                            <label><input type="checkbox" name="category_custom"> Custom System</label>
-                            <label><input type="checkbox" name="category_other"> Other: <input type="text" name="category_other_text" style="width: 200px; margin-left: 8px;"></label>
+                            <label><input type="checkbox" name="category_business" id="category_business" disabled> Business Website</label>
+                            <label><input type="checkbox" name="category_portfolio" id="category_portfolio" disabled> Portfolio</label>
+                            <label><input type="checkbox" name="category_custom" id="category_custom" disabled> Custom System</label>
+                            <label>
+                                <input type="checkbox" name="category_other" id="category_other" disabled> Other:
+                                <select name="category_other_dropdown" id="category_other_dropdown" style="width: 250px; margin-left: 8px; padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px;" disabled>
+                                    <option value="">Select from add-ons...</option>
+                                </select>
+                            </label>
                         </div>
+                        <p class="note-small" style="margin-top: 8px;"><em>Category is automatically determined based on your selections above.</em></p>
                     </div>
                     
                     <div class="form-grid">
