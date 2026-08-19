@@ -73,9 +73,14 @@ function selectPackage(packageId) {
 function calculateTotal() {
     let total = 0;
     
-    // Calculate from checkboxes
+    // Calculate from checkboxes (EXCEPT maintenance plans)
     const checkboxes = document.querySelectorAll('.service-checkbox:checked');
     checkboxes.forEach(checkbox => {
+        // Skip maintenance plan checkboxes (they have names starting with "maintenance_")
+        if (checkbox.name && checkbox.name.startsWith('maintenance_')) {
+            return; // Skip this checkbox
+        }
+        
         const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
         total += price;
     });
