@@ -98,27 +98,7 @@ function formatNumber(num) {
 }
 
 function goToPage2() {
-    // Validate Page 1 required fields
-    const requiredFields = [
-        'date', 'business_name', 'prepared_for'
-    ];
-    
-    let isValid = true;
-    requiredFields.forEach(fieldName => {
-        const field = document.querySelector(`[name="${fieldName}"]`);
-        if (field && !field.value) {
-            isValid = false;
-            field.style.borderColor = '#ef4444';
-        } else if (field) {
-            field.style.borderColor = '#e2e8f0';
-        }
-    });
-    
-    if (!isValid) {
-        showToast('error', 'Please fill in all required fields before continuing');
-        return;
-    }
-    
+    // No validation needed for Page 1 - just service selection
     // Hide page 1, show page 2
     document.getElementById('cost-estimate-form').style.display = 'none';
     document.getElementById('page-2').style.display = 'block';
@@ -305,11 +285,6 @@ function createEmailMessage(formData, services) {
 WEB DEVELOPMENT SERVICE COST ESTIMATE
 L.F DIGITAL SOLUTIONS
 ═══════════════════════════════════════════════════════════
-
-DATE: ${formData.get('date')}
-BUSINESS NAME: ${formData.get('business_name')}
-PREPARED FOR: ${formData.get('prepared_for')}
-PROJECT TITLE: ${formData.get('project_title') || 'N/A'}
 
 ───────────────────────────────────────────────────────────
 CLIENT INFORMATION
