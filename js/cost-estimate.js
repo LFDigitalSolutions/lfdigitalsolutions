@@ -39,9 +39,21 @@ function setTodayDate() {
 
 function selectPackage(packageId) {
     const radio = document.getElementById(packageId);
-    if (radio) {
+    if (!radio) return;
+    
+    // If clicking the already-selected package, deselect it
+    if (radio.checked) {
+        radio.checked = false;
+        selectedPackage = null;
+        
+        // Remove visual state from all cards
+        document.querySelectorAll('.package-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+    } else {
+        // Select the new package
         radio.checked = true;
-        radio.dispatchEvent(new Event('change'));
+        selectedPackage = radio.value;
         
         // Update card visual state
         document.querySelectorAll('.package-card').forEach(card => {
@@ -52,9 +64,10 @@ function selectPackage(packageId) {
         if (card) {
             card.classList.add('selected');
         }
-        
-        selectedPackage = radio.value;
     }
+    
+    // Recalculate total
+    calculateTotal();
 }
 
 function calculateTotal() {

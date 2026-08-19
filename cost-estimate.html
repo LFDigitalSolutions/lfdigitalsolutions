@@ -212,44 +212,45 @@
                 <!-- TABLE 2: Website Package Pricing -->
                 <div class="form-section">
                     <h2 class="section-title">TABLE 2: Website Package Pricing</h2>
+                    <p class="note-small" style="margin-bottom: 16px;"><em>Optional: Select a package if you want a pre-defined solution. Click again to deselect.</em></p>
                     <div class="packages-grid">
                         <div class="package-card" onclick="selectPackage('pkg_starter')">
-                            <input type="radio" class="package-radio" id="pkg_starter" name="package" data-price="1000" value="Starter">
+                            <input type="radio" class="package-radio" id="pkg_starter" name="package" data-price="1000" value="Starter" onclick="event.stopPropagation();">
                             <div class="package-name">Starter</div>
                             <div class="package-price">₱1,000</div>
                             <div class="package-description">Portfolio, Resume website, Landing page, One-page website</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_basic')">
-                            <input type="radio" class="package-radio" id="pkg_basic" name="package" data-price="5000" value="Basic Business">
+                            <input type="radio" class="package-radio" id="pkg_basic" name="package" data-price="5000" value="Basic Business" onclick="event.stopPropagation();">
                             <div class="package-name">Basic Business</div>
                             <div class="package-price">₱5,000</div>
                             <div class="package-description">Small Businesses & Startups</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_professional')">
-                            <input type="radio" class="package-radio" id="pkg_professional" name="package" data-price="15000" value="Professional">
+                            <input type="radio" class="package-radio" id="pkg_professional" name="package" data-price="15000" value="Professional" onclick="event.stopPropagation();">
                             <div class="package-name">Professional</div>
                             <div class="package-price">₱15,000</div>
                             <div class="package-description">Growing Businesses</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_business_pro')">
-                            <input type="radio" class="package-radio" id="pkg_business_pro" name="package" data-price="30000" value="Business Pro">
+                            <input type="radio" class="package-radio" id="pkg_business_pro" name="package" data-price="30000" value="Business Pro" onclick="event.stopPropagation();">
                             <div class="package-name">Business Pro</div>
                             <div class="package-price">₱30,000</div>
                             <div class="package-description">Businesses with Inventory & Reporting Needs</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_enterprise')">
-                            <input type="radio" class="package-radio" id="pkg_enterprise" name="package" data-price="50000" value="Enterprise">
+                            <input type="radio" class="package-radio" id="pkg_enterprise" name="package" data-price="50000" value="Enterprise" onclick="event.stopPropagation();">
                             <div class="package-name">Enterprise</div>
                             <div class="package-price">₱50,000</div>
                             <div class="package-description">Large Businesses & Organizations</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_agricultural')">
-                            <input type="radio" class="package-radio" id="pkg_agricultural" name="package" data-price="50000" value="Agricultural Management System">
+                            <input type="radio" class="package-radio" id="pkg_agricultural" name="package" data-price="50000" value="Agricultural Management System" onclick="event.stopPropagation();">
                             <div class="package-name">Agricultural Management System</div>
                             <div class="package-price">₱50,000</div>
                             <div class="package-description">Farms, Cooperatives & Agri-Businesses</div>
