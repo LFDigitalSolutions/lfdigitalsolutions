@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/cost-estimate"
+  to = "/cost-estimate.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {path = ["!/*.*", "!/cost-estimate"]}
