@@ -327,7 +327,7 @@ async function handleSubmit(e) {
         console.error('Submission error:', error);
         showToast('error', 'Submission failed. Please try again or contact us at lf.digitalsolutions.official@gmail.com');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Cost Estimate';
+        submitBtn.textContent = 'Submit Quotation';
     }
 }
 
