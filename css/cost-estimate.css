@@ -193,6 +193,12 @@ body {
     padding: 12px;
     font-size: 13px;
     color: #334155;
+    vertical-align: top;
+}
+
+.services-table td:first-child {
+    text-align: center;
+    width: 50px;
 }
 
 .services-table td:last-child {
@@ -201,9 +207,11 @@ body {
 }
 
 .service-checkbox {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
+    margin: 0 auto;
+    display: block;
 }
 
 .simple-table {
@@ -228,6 +236,12 @@ body {
     padding: 10px;
     border-bottom: 1px solid #e2e8f0;
     font-size: 13px;
+    vertical-align: middle;
+}
+
+.simple-table td:first-child {
+    text-align: center;
+    width: 50px;
 }
 
 .info-table {
