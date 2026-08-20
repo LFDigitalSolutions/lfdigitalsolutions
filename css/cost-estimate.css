@@ -672,3 +672,221 @@ input[type="checkbox"] {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* Success Modal */
+.success-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 58, 138, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.success-modal.show {
+    display: flex;
+}
+
+.success-modal-content {
+    background: white;
+    padding: 60px 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.5s ease-out;
+}
+
+.success-icon {
+    margin-bottom: 30px;
+}
+
+.checkmark {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.checkmark-circle {
+    stroke: #10b981;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    animation: fillCircle 0.4s ease-in-out 0.3s forwards, scaleCircle 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-check {
+    stroke: #10b981;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCheck 0.5s ease-out 0.7s forwards;
+}
+
+.success-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1E3A8A;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.5s ease-out 0.5s backwards;
+}
+
+.success-message {
+    font-size: 18px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    animation: fadeInUp 0.5s ease-out 0.6s backwards;
+}
+
+.success-submessage {
+    font-size: 15px;
+    color: #64748b;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    animation: fadeInUp 0.5s ease-out 0.7s backwards;
+}
+
+.success-btn {
+    background: linear-gradient(135deg, #1E3A8A 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out 0.8s backwards;
+}
+
+.success-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+}
+
+.success-btn:active {
+    transform: translateY(0);
+}
+
+.success-loading {
+    width: 100%;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    animation: fadeInUp 0.5s ease-out 0.8s backwards;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #1E3A8A, #3b82f6);
+    border-radius: 2px;
+    animation: loadingProgress 3s ease-out forwards;
+}
+
+.success-redirect {
+    font-size: 13px;
+    color: #94a3b8;
+    font-style: italic;
+    animation: fadeInUp 0.5s ease-out 0.9s backwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fillCircle {
+    0% {
+        stroke-dasharray: 0 157;
+    }
+    100% {
+        stroke-dasharray: 157 157;
+    }
+}
+
+@keyframes scaleCircle {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes drawCheck {
+    0% {
+        stroke-dashoffset: 48;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes loadingProgress {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .success-modal-content {
+        padding: 40px 30px;
+    }
+    
+    .success-title {
+        font-size: 26px;
+    }
+    
+    .success-message {
+        font-size: 16px;
+    }
+    
+    .checkmark {
+        width: 80px;
+        height: 80px;
+    }
+}

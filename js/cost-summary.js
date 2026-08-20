@@ -195,6 +195,11 @@ class CostSummary {
   setupSubmission() {
     const submitBtn = document.getElementById('submit-btn');
     
+    if (!submitBtn) {
+      console.error('Submit button not found!');
+      return;
+    }
+    
     submitBtn.addEventListener('click', async () => {
       // Validate authorization checkboxes
       const authCheckboxes = document.querySelectorAll('.authorization-item input[type="checkbox"]');
@@ -460,4 +465,245 @@ if (document.readyState === 'loading') {
   });
 } else {
   new CostSummary();
+}
+
+// Global submit handler (fallback for onclick attribute)
+let costSummaryInstance = null;
+
+window.handleSubmitClick = async function() {
+  const submitBtn = document.getElementById('submit-btn');
+  
+  if (!submitBtn) {
+    console.error('Submit button not found!');
+    return;
+  }
+  
+  // Validate authorization checkboxes
+  const authCheckboxes = document.querySelectorAll('.authorization-item input[type="checkbox"]');
+  let allChecked = true;
+  
+  authCheckboxes.forEach(checkbox => {
+    if (!checkbox.checked) {
+      allChecked = false;
+    }
+  });
+  
+  if (!allChecked) {
+    showToastGlobal('error', 'Please check all authorization items to proceed');
+    return;
+  }
+  
+  // Validate signatures
+  const companyCanvas = document.getElementById('company-signature-canvas');
+  const clientCanvas = document.getElementById('client-signature-canvas');
+  
+  if (!companyCanvas || !clientCanvas) {
+    showToastGlobal('error', 'Signature pads not initialized');
+    return;
+  }
+  
+  const companyPad = new SignaturePad(companyCanvas);
+  const clientPad = new SignaturePad(clientCanvas);
+  
+  if (companyPad.isEmpty()) {
+    showToastGlobal('error', 'L.F Digital Solutions signature is required');
+    return;
+  }
+  
+  if (clientPad.isEmpty()) {
+    showToastGlobal('error', 'Client signature is required');
+    return;
+  }
+  
+  // Validate signature info
+  const companySignerName = document.getElementById('company-signer-name').value;
+  const companyCofounder = document.getElementById('company-cofounder').value;
+  const companyDate = document.getElementById('company-date').value;
+  const clientSignerName = document.getElementById('client-signer-name').value;
+  const clientDate = document.getElementById('client-date').value;
+  
+  if (!companySignerName || !companyCofounder || !companyDate || !clientSignerName || !clientDate) {
+    showToastGlobal('error', 'Please fill in all signature information');
+    return;
+  }
+  
+  // Show loading
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Processing...';
+  
+  try {
+    // Get data from sessionStorage
+    const savedData = sessionStorage.getItem('costEstimateData');
+    
+    if (!savedData) {
+      throw new Error('No cost estimate data found');
+    }
+    
+    const data = JSON.parse(savedData);
+    
+    // Get signatures
+    const companySignature = companyPad.toDataURL('image/png');
+    const clientSignature = clientPad.toDataURL('image/png');
+    
+    // Calculate totals
+    const subtotal = data.total_cost || 0;
+    const discountAmount = parseFloat(document.getElementById('discount-amount').value) || 0;
+    const finalTotal = Math.max(0, subtotal - discountAmount);
+    
+    // Create message
+    const message = createEmailMessageGlobal(data, subtotal, discountAmount, finalTotal);
+    
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
+    formData.append('subject', `Project Cost Summary - ${data.client_name}`);
+    formData.append('from_name', 'L.F Digital Solutions - Cost Summary');
+    formData.append('message', message);
+    formData.append('company_signature', companySignature);
+    formData.append('client_signature', clientSignature);
+    formData.append('email', data.email);
+    
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const result = await response.json();
+    
+    if (!result.success) {
+      throw new Error('Email submission failed');
+    }
+    
+    // Send to company email
+    const companyFormData = new FormData();
+    companyFormData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
+    companyFormData.append('subject', `[COMPANY COPY] Project Cost Summary - ${data.client_name}`);
+    companyFormData.append('from_name', 'L.F Digital Solutions - Cost Summary');
+    companyFormData.append('email', 'lf.digitalsolutions.official@gmail.com');
+    companyFormData.append('message', message);
+    companyFormData.append('company_signature', companySignature);
+    companyFormData.append('client_signature', clientSignature);
+    
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: companyFormData
+    });
+    
+    showToastGlobal('success', 'Cost Summary submitted successfully! Confirmation emails have been sent.');
+    
+    // Clear session data and redirect
+    setTimeout(() => {
+      sessionStorage.removeItem('costEstimateData');
+      window.location.href = 'index.html';
+    }, 3000);
+    
+  } catch (error) {
+    console.error('Submission error:', error);
+    showToastGlobal('error', 'Submission failed. Please try again or contact us at lf.digitalsolutions.official@gmail.com');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Cost Summary & Authorization';
+  }
+};
+
+function createEmailMessageGlobal(data, subtotal, discount, finalTotal) {
+  const docNumber = document.getElementById('doc-number').textContent;
+  const dateIssued = document.getElementById('date-issued').textContent;
+  const companySignerName = document.getElementById('company-signer-name').value;
+  const companyCofounder = document.getElementById('company-cofounder').value;
+  const companyDate = document.getElementById('company-date').value;
+  const clientSignerName = document.getElementById('client-signer-name').value;
+  const clientPosition = document.getElementById('client-position').value;
+  const clientDate = document.getElementById('client-date').value;
+  const discountType = document.getElementById('discount-type').value;
+  
+  const formatNum = (num) => num.toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  
+  let servicesText = '';
+  if (data.services) {
+    servicesText = data.services.map(s => `  • ${s.name} - ₱${formatNum(s.price)}`).join('\n');
+  }
+  
+  const payment50 = Math.round(finalTotal * 0.5);
+  const payment30 = Math.round(finalTotal * 0.3);
+  const payment20 = finalTotal - payment50 - payment30;
+  
+  return `
+═══════════════════════════════════════════════════════════
+PROJECT COST SUMMARY & PAYMENT AUTHORIZATION
+═══════════════════════════════════════════════════════════
+
+DOCUMENT NO.: LFDS-PCS-2026-${docNumber}
+DATE ISSUED: ${dateIssued}
+
+───────────────────────────────────────────────────────────
+CLIENT INFORMATION
+───────────────────────────────────────────────────────────
+Client Name: ${data.client_name}
+Company: ${data.company || 'N/A'}
+Email: ${data.email}
+Phone: ${data.phone}
+
+───────────────────────────────────────────────────────────
+APPROVED PROJECT COST
+───────────────────────────────────────────────────────────
+
+SELECTED SERVICES:
+${servicesText}
+
+COST BREAKDOWN:
+Subtotal:                     ₱${formatNum(subtotal)}
+Discount:                   - ₱${formatNum(discount)}
+                              ────────────────
+TOTAL PROJECT COST:           ₱${formatNum(finalTotal)}
+
+${discountType ? `Discount Type: ${discountType}` : ''}
+
+───────────────────────────────────────────────────────────
+PAYMENT SCHEDULE
+───────────────────────────────────────────────────────────
+
+Initial / Down Payment (50%):  ₱${formatNum(payment50)}
+Development Milestone (30%):   ₱${formatNum(payment30)}
+Final Payment (20%):           ₱${formatNum(payment20)}
+TOTAL:                         ₱${formatNum(finalTotal)}
+
+───────────────────────────────────────────────────────────
+SIGNATURES
+───────────────────────────────────────────────────────────
+
+L.F DIGITAL SOLUTIONS:
+Authorized Signature: ${companySignerName}
+Co-Founder: ${companyCofounder}
+Date: ${companyDate}
+
+CLIENT:
+Signature: ${clientSignerName}
+${clientPosition ? `Position: ${clientPosition}` : ''}
+Date: ${clientDate}
+
+═══════════════════════════════════════════════════════════
+  `;
+}
+
+function showToastGlobal(type, message) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  
+  const icon = type === 'success' ? '✓' : '✕';
+  const title = type === 'success' ? 'Success!' : 'Error';
+  
+  toast.innerHTML = `
+    <div class="toast-icon">${icon}</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div>${message}</div>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+  `;
+  
+  container.appendChild(toast);
+  setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
 }

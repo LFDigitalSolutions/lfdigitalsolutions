@@ -27,17 +27,16 @@
         </div>
         
         <div class="estimate-body">
-            <a href="/" class="back-link">← Back to Home</a>
-            
-            <!-- Introduction -->
-            <div class="intro-box">
-                <p><strong>Thank you for considering L.F Digital Solutions as your website development partner.</strong> We appreciate the opportunity to work with your organization and are excited to help bring your vision to life. This proposal outlines our understanding of your requirements, the recommended solution, project timeline, pricing, and terms of engagement.</p>
-                
-                <h3>Who We Are</h3>
-                <p>We are a freelance web development and creative design studio specializing in custom websites, web applications, and digital solutions for businesses. Our mission is to create modern, user-friendly, and scalable websites that help businesses strengthen their online presence and improve operational efficiency.</p>
-            </div>
             
             <form id="cost-estimate-form">
+                <!-- Introduction -->
+                <div class="intro-box">
+                    <p><strong>Thank you for considering L.F Digital Solutions as your website development partner.</strong> We appreciate the opportunity to work with your organization and are excited to help bring your vision to life. This proposal outlines our understanding of your requirements, the recommended solution, project timeline, pricing, and terms of engagement.</p>
+                    
+                    <h3>Who We Are</h3>
+                    <p>We are a freelance web development and creative design studio specializing in custom websites, web applications, and digital solutions for businesses. Our mission is to create modern, user-friendly, and scalable websites that help businesses strengthen their online presence and improve operational efficiency.</p>
+                </div>
+                
                 <p class="note"><strong>Note:</strong> ☑ Required services are part of the standard project engagement process. Optional services may be selected upon the client's request.</p>
                 
                 <!-- TABLE 1: Design & Development Fee Statement -->
@@ -220,44 +219,44 @@
                     <p class="note-small" style="margin-bottom: 16px;"><em>Optional: Select a package if you want a pre-defined solution. Click again to deselect.</em></p>
                     <div class="packages-grid">
                         <div class="package-card" onclick="selectPackage('pkg_starter')">
-                            <input type="radio" class="package-radio" id="pkg_starter" name="package" data-price="1000" value="Starter" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_starter" name="package" data-price="1000" value="Starter">
                             <div class="package-name">Starter</div>
-                            <div class="package-price">₱1,000</div>
+                            <div class="package-price">₱1,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Portfolio, Resume website, Landing page, One-page website</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_basic')">
-                            <input type="radio" class="package-radio" id="pkg_basic" name="package" data-price="5000" value="Basic Business" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_basic" name="package" data-price="5000" value="Basic Business">
                             <div class="package-name">Basic Business</div>
-                            <div class="package-price">₱5,000</div>
+                            <div class="package-price">₱5,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Small Businesses & Startups</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_professional')">
-                            <input type="radio" class="package-radio" id="pkg_professional" name="package" data-price="15000" value="Professional" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_professional" name="package" data-price="15000" value="Professional">
                             <div class="package-name">Professional</div>
-                            <div class="package-price">₱15,000</div>
+                            <div class="package-price">₱15,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Growing Businesses</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_business_pro')">
-                            <input type="radio" class="package-radio" id="pkg_business_pro" name="package" data-price="30000" value="Business Pro" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_business_pro" name="package" data-price="30000" value="Business Pro">
                             <div class="package-name">Business Pro</div>
-                            <div class="package-price">₱30,000</div>
+                            <div class="package-price">₱30,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Businesses with Inventory & Reporting Needs</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_enterprise')">
-                            <input type="radio" class="package-radio" id="pkg_enterprise" name="package" data-price="50000" value="Enterprise" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_enterprise" name="package" data-price="50000" value="Enterprise">
                             <div class="package-name">Enterprise</div>
-                            <div class="package-price">₱50,000</div>
+                            <div class="package-price">₱50,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Large Businesses & Organizations</div>
                         </div>
                         
                         <div class="package-card" onclick="selectPackage('pkg_agricultural')">
-                            <input type="radio" class="package-radio" id="pkg_agricultural" name="package" data-price="50000" value="Agricultural Management System" onclick="event.stopPropagation();">
+                            <input type="radio" class="package-radio" id="pkg_agricultural" name="package" data-price="50000" value="Agricultural Management System">
                             <div class="package-name">Agricultural Management System</div>
-                            <div class="package-price">₱50,000</div>
+                            <div class="package-price">₱50,000 <span style="font-size: 12px; font-weight: 400; color: #64748b;">Starting Price</span></div>
                             <div class="package-description">Farms, Cooperatives & Agri-Businesses</div>
                         </div>
                     </div>
@@ -386,6 +385,7 @@
             
             <!-- PAGE 2 STARTS HERE (Hidden initially) -->
             <div id="page-2" style="display: none;">
+                <a href="javascript:void(0)" class="back-link" onclick="goBackToPage1()">← Back to Page 1</a>
                 <h2 style="font-size: 24px; color: #1E3A8A; margin-bottom: 30px; text-align: center;">Additional Information & Terms</h2>
                 
                 <!-- TABLE 5: Payment Schedule -->
@@ -404,7 +404,7 @@
                                 <td>30% Downpayment</td>
                             </tr>
                             <tr>
-                                <td>Design Approval</td>
+                                <td>Midway Progress</td>
                                 <td>30%</td>
                             </tr>
                             <tr>
@@ -417,7 +417,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="note-small"><strong>ALTERNATIVE OPTION:</strong> • 50% Before Development • 50% Upon Completion</p>
+                    <p class="note-small"><strong>NOTE:</strong> If the project is <strong>under ₱10,000</strong>: • 50% Before Development • 50% Upon Completion</p>
                 </div>
                 
                 <!-- TABLE 6: Bank Details -->
@@ -693,6 +693,7 @@
             
             <!-- PAGE 3: Project Details & Requirements -->
             <div id="page-3" style="display: none;">
+                <a href="javascript:void(0)" class="back-link" onclick="goBackToPage2()">← Back to Page 2</a>
                 <h2 style="font-size: 24px; color: #1E3A8A; margin-bottom: 30px; text-align: center;">PROJECT DETAILS & REQUIREMENTS</h2>
                 
                 <div class="form-section">
@@ -875,7 +876,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary" id="submit-estimate">
+                <button type="button" class="btn btn-primary" id="submit-estimate" onclick="handleSubmit(event)">
                     Submit Quotation
                 </button>
             </div>
@@ -885,6 +886,24 @@
     
     <div class="toast-container" id="toast-container"></div>
     
+    <!-- Success Modal -->
+    <div class="success-modal" id="success-modal">
+        <div class="success-modal-content">
+            <div class="success-icon">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h2 class="success-title">Thank You!</h2>
+            <p class="success-message">Your cost estimate request has been submitted successfully.</p>
+            <p class="success-submessage">We will review your requirements and send you the final quotation via email within 1-2 business days.</p>
+            <button class="success-btn" onclick="window.location.href='/'">Okay</button>
+        </div>
+    </div>
+    
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <!-- Signature Pad Library -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <script src="js/cost-estimate.js"></script>

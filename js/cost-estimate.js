@@ -4,8 +4,16 @@ let clientSignaturePad;
 let totalCost = 0;
 let selectedPackage = null;
 
+// EmailJS Configuration
+const EMAILJS_PUBLIC_KEY = 'zUcdRXHwMWrRjcu9H';
+const EMAILJS_SERVICE_ID = 'service_7bnhcpn';
+const EMAILJS_TEMPLATE_ID = 'template_dnwnyhg';
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    
     setupEventListeners();
     calculateTotal();
     setTodayDate();
@@ -36,9 +44,23 @@ function setupEventListeners() {
         radio.addEventListener('change', calculateTotal);
     });
     
-    // Form submission
+    // Form submission - use both addEventListener and check for form element
     const form = document.getElementById('cost-estimate-form');
-    form.addEventListener('submit', handleSubmit);
+    if (form) {
+        form.addEventListener('submit', handleSubmit);
+    }
+    
+    // Also add click handler to submit button directly as backup
+    const submitBtn = document.getElementById('submit-estimate');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(e) {
+            // Only handle if form submit didn't trigger
+            if (e.target.type === 'submit') {
+                return; // Let form handle it
+            }
+            handleSubmit(e);
+        });
+    }
 }
 
 function setTodayDate() {
@@ -228,6 +250,13 @@ function goToPage2() {
     window.scrollTo(0, 0);
 }
 
+function goBackToPage1() {
+    // Show page 1, hide page 2
+    document.getElementById('cost-estimate-form').style.display = 'block';
+    document.getElementById('page-2').style.display = 'none';
+    window.scrollTo(0, 0);
+}
+
 function goToPage3() {
     // Hide page 2, show page 3
     document.getElementById('page-2').style.display = 'none';
@@ -239,6 +268,13 @@ function goToPage3() {
     
     // Update final displays
     calculateTotal();
+}
+
+function goBackToPage2() {
+    // Show page 2, hide page 3
+    document.getElementById('page-2').style.display = 'block';
+    document.getElementById('page-3').style.display = 'none';
+    window.scrollTo(0, 0);
 }
 
 function initSignaturePads() {
@@ -264,14 +300,16 @@ function clearClientSig() {
 
 async function handleSubmit(e) {
     e.preventDefault();
+    e.stopPropagation();
     
-    // Validate client signature only
+    const submitBtn = document.getElementById('submit-estimate');
+    if (submitBtn.disabled) return;
+    
     if (!clientSignaturePad || clientSignaturePad.isEmpty()) {
         showToast('error', 'Client signature is required');
         return;
     }
     
-    // Validate required fields on page 3
     const clientName = document.querySelector('[name="client_name"]').value;
     const contactNumber = document.querySelector('[name="contact_number"]').value;
     const emailAddress = document.querySelector('[name="email_address"]').value;
@@ -283,59 +321,57 @@ async function handleSubmit(e) {
         return;
     }
     
-    // Show loading
-    const submitBtn = document.getElementById('submit-estimate');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
     
     try {
-        // Get client signature
         const clientSignature = clientSignaturePad.toDataURL('image/png');
         
-        // Collect all form data
-        const formData = new FormData(document.getElementById('cost-estimate-form'));
+        const company = document.querySelector('[name="company"]').value || 'N/A';
+        const projectTitle = document.querySelector('[name="project_title_details"]').value || 'N/A';
+        const preferredDate = document.querySelector('[name="preferred_completion_date"]').value || 'Not specified';
+        const projectDescription = document.querySelector('[name="project_description"]').value || 'Not provided';
+        const preferredColors = document.querySelector('[name="preferred_colors"]').value || 'Not specified';
+        const referenceWebsites = document.querySelector('[name="reference_websites"]').value || 'None provided';
+        const additionalNotes = document.querySelector('[name="additional_notes"]').value || 'None';
+        const clientPosition = document.querySelector('[name="client_position"]').value || 'N/A';
+        const clientCompany = document.querySelector('[name="client_company_sig"]').value || 'N/A';
         
-        // Add signature
-        formData.append('client_signature', clientSignature);
-        
-        // Add selected services
         const services = getSelectedServices();
-        formData.append('selected_services', JSON.stringify(services));
-        formData.append('total_cost', totalCost);
-        formData.append('selected_package', selectedPackage || 'None');
+        const servicesHTML = services.map(s => `<tr><td style="padding: 8px;">${s.name}</td><td style="padding: 8px; text-align: right;">₱${formatNumber(s.price)}</td></tr>`).join('');
         
-        // Web3Forms configuration
-        formData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
-        formData.append('subject', `Cost Estimate - ${clientName}`);
-        formData.append('from_name', 'L.F Digital Solutions - Cost Estimate');
+        const projectCategory = getProjectCategoryText();
+        const requiredFeatures = getRequiredFeaturesText();
+        const preferredStyle = getPreferredStyleText();
         
-        // Create detailed message
-        const message = createEmailMessage(formData, services);
-        formData.append('message', message);
-        
-        // Send to client email
-        formData.set('email', emailAddress);
-        
-        const response = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            body: formData
+        // Create HTML email template IN CODE
+        const emailHTML = createEmailHTML({
+            clientName, company, contactNumber, emailAddress, projectTitle, projectCategory,
+            selectedPackage: selectedPackage || 'None', servicesHTML, totalCost,
+            preferredDate, projectDescription, requiredFeatures, preferredColors,
+            preferredStyle, referenceWebsites, additionalNotes, clientSigner,
+            clientPosition, clientCompany, clientDate, clientSignature
         });
         
-        const result = await response.json();
+        // Send ONLY to COMPANY (you will manually send final quotation to client)
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            {
+                to_email: 'lf.digitalsolutions.official@gmail.com',
+                subject: `New Cost Estimate Request - ${clientName}`,
+                html_message: emailHTML,
+                message: emailHTML,
+                client_name: clientName,
+                client_email: emailAddress,
+                client_phone: contactNumber,
+                company: company,
+                total_cost: formatNumber(totalCost)
+            }
+        );
         
-        if (result.success) {
-            // Send to company email
-            await sendToCompanyEmail(formData, message, clientSignature);
-            
-            showToast('success', 'Cost estimate submitted successfully! Confirmation emails have been sent.');
-            
-            // Redirect to homepage after 3 seconds
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 3000);
-        } else {
-            throw new Error('Submission failed');
-        }
+        // Show success modal instead of toast
+        showSuccessModal();
         
     } catch (error) {
         console.error('Submission error:', error);
@@ -345,13 +381,99 @@ async function handleSubmit(e) {
     }
 }
 
+function createEmailHTML(data) {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+.container { max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
+.content { background-color: white; padding: 30px; border-radius: 8px; }
+h1 { color: #1E3A8A; text-align: center; border-bottom: 3px solid #1E3A8A; padding-bottom: 15px; }
+h2 { color: #1E3A8A; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; margin-top: 30px; }
+table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+td { padding: 8px; }
+.services-table { background-color: #f9f9f9; }
+.services-table td { border-bottom: 1px solid #e0e0e0; }
+.total { font-size: 18px; font-weight: bold; color: #1E3A8A; text-align: right; margin-top: 15px; }
+.note { background-color: #fffbeb; border: 2px solid #fbbf24; padding: 20px; border-radius: 8px; margin-top: 30px; }
+.footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #666; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="content">
+
+<h1>WEB DEVELOPMENT SERVICE COST ESTIMATE</h1>
+<p style="text-align: center; color: #666;">L.F DIGITAL SOLUTIONS</p>
+
+<h2>CLIENT INFORMATION</h2>
+<table>
+<tr><td><strong>Client Name:</strong></td><td>${data.clientName}</td></tr>
+<tr><td><strong>Company:</strong></td><td>${data.company}</td></tr>
+<tr><td><strong>Contact Number:</strong></td><td>${data.contactNumber}</td></tr>
+<tr><td><strong>Email:</strong></td><td>${data.emailAddress}</td></tr>
+<tr><td><strong>Project Category:</strong></td><td>${data.projectCategory}</td></tr>
+</table>
+
+<h2>SELECTED SERVICES & PRICING</h2>
+<p><strong>Selected Package:</strong> ${data.selectedPackage}</p>
+<table class="services-table">
+${data.servicesHTML}
+</table>
+<div class="total">TOTAL ESTIMATED COST: ₱${formatNumber(data.totalCost)}</div>
+
+<h2>PROJECT DETAILS</h2>
+<p><strong>Project Title:</strong> ${data.projectTitle}</p>
+<p><strong>Preferred Completion Date:</strong> ${data.preferredDate}</p>
+<p><strong>Project Description:</strong></p>
+<p style="background-color: #f9f9f9; padding: 15px;">${data.projectDescription}</p>
+<p><strong>Required Features:</strong> ${data.requiredFeatures}</p>
+<p><strong>Preferred Colors:</strong> ${data.preferredColors}</p>
+<p><strong>Preferred Style:</strong> ${data.preferredStyle}</p>
+<p><strong>Reference Websites:</strong> ${data.referenceWebsites}</p>
+<p><strong>Additional Notes:</strong> ${data.additionalNotes}</p>
+
+<h2>CLIENT SIGNATURE</h2>
+<table>
+<tr><td><strong>Name:</strong></td><td>${data.clientSigner}</td></tr>
+<tr><td><strong>Position:</strong></td><td>${data.clientPosition}</td></tr>
+<tr><td><strong>Company:</strong></td><td>${data.clientCompany}</td></tr>
+<tr><td><strong>Date:</strong></td><td>${data.clientDate}</td></tr>
+</table>
+<p style="margin-top: 15px;"><img src="${data.clientSignature}" style="max-width: 300px; border: 1px solid #ddd; padding: 10px;" alt="Client Signature" /></p>
+
+<div class="note">
+<p style="margin: 0; color: #92400e;"><strong>Note:</strong> This is a preliminary cost estimate. Final pricing will be confirmed after detailed project discussion and approval.</p>
+</div>
+
+<div class="footer">
+<p><strong>L.F DIGITAL SOLUTIONS</strong></p>
+<p>San Antonio, Roxas ext., Digos City, Davao del Sur</p>
+<p>Mobile: 0966 759 0644 / 0967 470 1338</p>
+<p>Email: lf.digitalsolutions.official@gmail.com</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>
+    `;
+}
+
 function getSelectedServices() {
     const services = [];
     
-    // Get services from checkboxes
+    // Get services from checkboxes (excluding maintenance)
     document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
+        // Skip maintenance checkboxes
+        if (checkbox.name && checkbox.name.startsWith('maintenance_')) {
+            return;
+        }
+        
         const row = checkbox.closest('tr');
-        let serviceName = checkbox.name.replace(/_/g, ' ').replace('service ', '').replace('addon ', '').replace('maintenance ', '');
+        let serviceName = checkbox.name.replace(/_/g, ' ').replace('service ', '').replace('addon ', '');
         
         if (row) {
             const cells = row.querySelectorAll('td');
@@ -457,47 +579,129 @@ function getProjectCategory(formData) {
     return categories.join(', ') || 'Not specified';
 }
 
-function getRequiredFeatures(formData) {
+function getProjectCategoryText() {
+    const categories = [];
+    if (document.getElementById('category_business')?.checked) categories.push('Business Website');
+    if (document.getElementById('category_portfolio')?.checked) categories.push('Portfolio');
+    if (document.getElementById('category_custom')?.checked) categories.push('Custom System');
+    if (document.getElementById('category_other')?.checked) {
+        const otherList = document.getElementById('category_other_list')?.textContent;
+        if (otherList) {
+            categories.push(`Other: ${otherList}`);
+        } else {
+            categories.push('Other');
+        }
+    }
+    return categories.join(', ') || 'Not specified';
+}
+
+function getRequiredFeaturesText() {
     const features = [];
     const featureFields = ['user_login', 'admin', 'user_mgmt', 'inventory', 'reports', 'booking', 'forms', 'gallery', 'contact', 'responsive', 'database'];
     featureFields.forEach(field => {
-        if (formData.get(`feature_${field}`)) {
+        const checkbox = document.querySelector(`[name="feature_${field}"]`);
+        if (checkbox && checkbox.checked) {
             features.push(field.replace(/_/g, ' '));
         }
     });
-    const other = formData.get('feature_other_text');
-    if (other) features.push(other);
+    const otherCheckbox = document.querySelector('[name="feature_other"]');
+    const otherText = document.querySelector('[name="feature_other_text"]');
+    if (otherCheckbox && otherCheckbox.checked && otherText && otherText.value) {
+        features.push(otherText.value);
+    }
     return features.join(', ') || 'Not specified';
 }
 
-function getPreferredStyle(formData) {
+function getPreferredStyleText() {
     const styles = [];
     const styleFields = ['minimalist', 'modern', 'professional', 'corporate', 'creative'];
     styleFields.forEach(field => {
-        if (formData.get(`style_${field}`)) {
+        const checkbox = document.querySelector(`[name="style_${field}"]`);
+        if (checkbox && checkbox.checked) {
             styles.push(field);
         }
     });
-    const other = formData.get('style_other_text');
-    if (other) styles.push(other);
+    const otherCheckbox = document.querySelector('[name="style_other"]');
+    const otherText = document.querySelector('[name="style_other_text"]');
+    if (otherCheckbox && otherCheckbox.checked && otherText && otherText.value) {
+        styles.push(otherText.value);
+    }
     return styles.join(', ') || 'Not specified';
 }
 
-async function sendToCompanyEmail(formData, message, clientSignature) {
-    const companyFormData = new FormData();
+function createEmailMessageFromObject(data, signatureDataURL) {
+    let servicesText = data.services.map(s => `  • ${s.name} - ₱${formatNumber(s.price)}`).join('\n');
     
-    companyFormData.append('access_key', 'd8cf9868-4e3e-4f15-a360-baa51ebd245a');
-    companyFormData.append('subject', `[COMPANY COPY] Cost Estimate - ${formData.get('client_name')}`);
-    companyFormData.append('from_name', 'L.F Digital Solutions - Cost Estimate');
-    companyFormData.append('email', 'lf.digitalsolutions.official@gmail.com');
-    companyFormData.append('message', message);
-    companyFormData.append('client_signature', clientSignature);
+    // Extract just a portion of the signature for reference (not the full base64)
+    const signaturePreview = signatureDataURL.substring(0, 100) + '... (signature data truncated for email)';
     
-    await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: companyFormData
-    });
+    return `
+═══════════════════════════════════════════════════════════
+WEB DEVELOPMENT SERVICE COST ESTIMATE
+L.F DIGITAL SOLUTIONS
+═══════════════════════════════════════════════════════════
+
+───────────────────────────────────────────────────────────
+CLIENT INFORMATION
+───────────────────────────────────────────────────────────
+Client Name: ${data.client_name}
+Company: ${data.company || 'N/A'}
+Contact Number: ${data.contact_number}
+Email Address: ${data.email_address}
+Project Title: ${data.project_title || 'N/A'}
+Project Category: ${data.project_category}
+
+───────────────────────────────────────────────────────────
+SELECTED SERVICES & PRICING
+───────────────────────────────────────────────────────────
+
+${servicesText}
+
+TOTAL ESTIMATED COST: ₱${formatNumber(data.total_cost)}
+
+───────────────────────────────────────────────────────────
+PROJECT DETAILS
+───────────────────────────────────────────────────────────
+
+Selected Package: ${data.selected_package}
+Preferred Completion Date: ${data.preferred_completion_date || 'Not specified'}
+
+Project Description:
+${data.project_description || 'Not provided'}
+
+Required Features: ${data.required_features}
+
+Design Preferences:
+  Preferred Colors: ${data.preferred_colors || 'Not specified'}
+  Preferred Style: ${data.preferred_style}
+  Reference Websites: ${data.reference_websites || 'None provided'}
+
+Additional Notes:
+${data.additional_notes || 'None'}
+
+───────────────────────────────────────────────────────────
+CLIENT SIGNATURE
+───────────────────────────────────────────────────────────
+
+CLIENT:
+  Name: ${data.client_signer}
+  Position: ${data.client_position || 'N/A'}
+  Company: ${data.client_company_sig || 'N/A'}
+  Date: ${data.client_date}
+
+Note: Digital signature was provided by the client.
+Signature data: ${signaturePreview}
+
+═══════════════════════════════════════════════════════════
+
+This is a preliminary cost estimate. Final pricing will be 
+confirmed after detailed project discussion and approval.
+
+Thank you for considering L.F Digital Solutions!
+    `;
 }
+
+
 
 function showToast(type, message) {
     const container = document.getElementById('toast-container');
@@ -518,4 +722,11 @@ function showToast(type, message) {
     
     container.appendChild(toast);
     setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+}
+
+function showSuccessModal() {
+    const modal = document.getElementById('success-modal');
+    modal.classList.add('show');
+    
+    // No auto-redirect - user clicks button to go back
 }
