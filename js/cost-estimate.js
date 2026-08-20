@@ -223,7 +223,7 @@ function goToPage2() {
     }
     
     // Hide page 1, show page 2
-    document.getElementById('page-1').style.display = 'none';
+    document.getElementById('cost-estimate-form').style.display = 'none';
     document.getElementById('page-2').style.display = 'block';
     window.scrollTo(0, 0);
 }
