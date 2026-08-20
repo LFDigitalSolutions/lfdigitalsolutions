@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects for clean URLs
+
+# Redirect .html files to clean URLs
+/cost-estimate.html  /cost-estimate  301
+/cost-summary.html   /cost-summary   301
+
+# Serve clean URLs
+/cost-estimate  /cost-estimate.html  200
+/cost-summary   /cost-summary.html   200
