@@ -329,7 +329,6 @@ async function handleSubmit(e) {
         
         const company = document.querySelector('[name="company"]').value || 'N/A';
         const projectTitle = document.querySelector('[name="project_title_details"]').value || 'N/A';
-        const preferredDate = document.querySelector('[name="preferred_completion_date"]').value || 'Not specified';
         const projectDescription = document.querySelector('[name="project_description"]').value || 'Not provided';
         const preferredColors = document.querySelector('[name="preferred_colors"]').value || 'Not specified';
         const referenceWebsites = document.querySelector('[name="reference_websites"]').value || 'None provided';
@@ -348,7 +347,7 @@ async function handleSubmit(e) {
         const emailHTML = createEmailHTML({
             clientName, company, contactNumber, emailAddress, projectTitle, projectCategory,
             selectedPackage: selectedPackage || 'None', servicesHTML, totalCost,
-            preferredDate, projectDescription, requiredFeatures, preferredColors,
+            projectDescription, requiredFeatures, preferredColors,
             preferredStyle, referenceWebsites, additionalNotes, clientSigner,
             clientPosition, clientCompany, clientDate, clientSignature
         });
@@ -359,14 +358,9 @@ async function handleSubmit(e) {
             EMAILJS_TEMPLATE_ID,
             {
                 to_email: 'lf.digitalsolutions.official@gmail.com',
+                to_name: 'L.F Digital Solutions',
                 subject: `New Cost Estimate Request - ${clientName}`,
-                html_message: emailHTML,
-                message: emailHTML,
-                client_name: clientName,
-                client_email: emailAddress,
-                client_phone: contactNumber,
-                company: company,
-                total_cost: formatNumber(totalCost)
+                html_message: emailHTML
             }
         );
         
@@ -426,7 +420,6 @@ ${data.servicesHTML}
 
 <h2>PROJECT DETAILS</h2>
 <p><strong>Project Title:</strong> ${data.projectTitle}</p>
-<p><strong>Preferred Completion Date:</strong> ${data.preferredDate}</p>
 <p><strong>Project Description:</strong></p>
 <p style="background-color: #f9f9f9; padding: 15px;">${data.projectDescription}</p>
 <p><strong>Required Features:</strong> ${data.requiredFeatures}</p>
