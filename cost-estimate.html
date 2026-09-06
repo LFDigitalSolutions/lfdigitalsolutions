@@ -317,11 +317,12 @@
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="service-checkbox" data-price="1000" name="addon_hosting"></td>
-                                <td>Hosting Setup</td>
+                                <td>Hosting Setup & Deployment (Required for Online Launch)*</td>
                                 <td>₱1,000</td>
                             </tr>
                         </tbody>
                     </table>
+                    <p class="note-small"><strong>Note:</strong> Hosting Setup & Deployment is <strong>required only IF</strong> the website will be launched online. The <strong>hosting subscription/renewal fee</strong> is separate and is paid by the client.</p>
                 </div>
                 
                 <!-- TABLE 4: Monthly Maintenance Plans -->
@@ -341,25 +342,25 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="1000" name="maintenance_basic"></td>
+                                <td><input type="radio" class="service-checkbox" data-price="1000" name="maintenance_plan" value="maintenance_basic"></td>
                                 <td>Basic</td>
                                 <td>₱1,000</td>
                                 <td>Personal & Portfolio Websites</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="1000" name="maintenance_standard"></td>
+                                <td><input type="radio" class="service-checkbox" data-price="1000" name="maintenance_plan" value="maintenance_standard"></td>
                                 <td>Standard</td>
                                 <td>₱1,000</td>
                                 <td>Small Business Websites</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="5000" name="maintenance_premium"></td>
+                                <td><input type="radio" class="service-checkbox" data-price="5000" name="maintenance_plan" value="maintenance_premium"></td>
                                 <td>Premium</td>
                                 <td>₱5,000</td>
                                 <td>Business Websites & E-commerce</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="0" name="maintenance_enterprise"></td>
+                                <td><input type="radio" class="service-checkbox" data-price="0" name="maintenance_plan" value="maintenance_enterprise"></td>
                                 <td>Enterprise</td>
                                 <td>By Quotation</td>
                                 <td>Large Business Systems</td>
@@ -367,6 +368,7 @@
                         </tbody>
                     </table>
                     <p class="note-small"><strong>INCLUDED:</strong> Website Monitoring • Minor Updates • Security Checks • Weekly Backups • Bug Fixes • Technical Support</p>
+                    <p class="note-small"><strong>Hosting subscription fees</strong> are separate from the maintenance plan but may be added to the monthly fee upon request if L.F. Digital Solutions will manage the client's hosting subscription.</p>
                 </div>
                 
                 <!-- Cost Summary at this point -->
@@ -441,8 +443,8 @@
                                 <td>0966 759 0644 CH****S LO**S D. / 0931 929 1481 AR****E FA**H P.</td>
                             </tr>
                             <tr>
-                                <td>MariBank</td>
-                                <td>0931 929 1481</td>
+                                <td>GoTyme</td>
+                                <td>0966 759 0644</td>
                             </tr>
                             <tr>
                                 <td>PayPal</td>
@@ -705,7 +707,7 @@
                     <h2 class="section-title">CLIENT INFORMATION</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label">CLIENT NAME:</label>
+                            <label class="form-label">CLIENT NAME: <span style="color: red;">*</span></label>
                             <input type="text" name="client_name" class="form-input" required>
                         </div>
                         <div class="form-group">
@@ -715,11 +717,11 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label">CONTACT NUMBER:</label>
+                            <label class="form-label">CONTACT NUMBER: <span style="color: red;">*</span></label>
                             <input type="tel" name="contact_number" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">EMAIL ADDRESS:</label>
+                            <label class="form-label">EMAIL ADDRESS: <span style="color: red;">*</span></label>
                             <input type="email" name="email_address" class="form-input" required>
                         </div>
                     </div>

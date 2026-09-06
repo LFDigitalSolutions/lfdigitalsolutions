@@ -109,12 +109,12 @@ function selectPackage(packageId) {
 function calculateTotal() {
     let total = 0;
     
-    // Calculate from checkboxes (EXCEPT maintenance plans)
+    // Calculate from checkboxes (EXCEPT maintenance plans which are now radio buttons)
     const checkboxes = document.querySelectorAll('.service-checkbox:checked');
     checkboxes.forEach(checkbox => {
-        // Skip maintenance plan checkboxes (they have names starting with "maintenance_")
-        if (checkbox.name && checkbox.name.startsWith('maintenance_')) {
-            return; // Skip this checkbox
+        // Skip maintenance plan radio buttons - they have name="maintenance_plan"
+        if (checkbox.name === 'maintenance_plan') {
+            return; // Skip maintenance plan
         }
         
         const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
@@ -305,19 +305,35 @@ async function handleSubmit(e) {
     const submitBtn = document.getElementById('submit-estimate');
     if (submitBtn.disabled) return;
     
-    if (!clientSignaturePad || clientSignaturePad.isEmpty()) {
-        showToast('error', 'Client signature is required');
-        return;
+    // Validate required fields and scroll to first empty field
+    const clientName = document.querySelector('[name="client_name"]');
+    const contactNumber = document.querySelector('[name="contact_number"]');
+    const emailAddress = document.querySelector('[name="email_address"]');
+    const clientSigner = document.querySelector('[name="client_signer"]');
+    const clientDate = document.querySelector('[name="client_date"]');
+    
+    const requiredFields = [
+        { element: clientName, name: 'Client Name' },
+        { element: contactNumber, name: 'Contact Number' },
+        { element: emailAddress, name: 'Email Address' },
+        { element: clientSigner, name: 'Signature over Printed Name' },
+        { element: clientDate, name: 'Date' }
+    ];
+    
+    for (const field of requiredFields) {
+        if (!field.element.value.trim()) {
+            // Scroll to the empty field
+            field.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            field.element.focus();
+            showToast('error', `Please fill in: ${field.name}`);
+            return;
+        }
     }
     
-    const clientName = document.querySelector('[name="client_name"]').value;
-    const contactNumber = document.querySelector('[name="contact_number"]').value;
-    const emailAddress = document.querySelector('[name="email_address"]').value;
-    const clientSigner = document.querySelector('[name="client_signer"]').value;
-    const clientDate = document.querySelector('[name="client_date"]').value;
-    
-    if (!clientName || !contactNumber || !emailAddress || !clientSigner || !clientDate) {
-        showToast('error', 'Please fill in all required fields');
+    if (!clientSignaturePad || clientSignaturePad.isEmpty()) {
+        const signatureCanvas = document.getElementById('client-signature');
+        signatureCanvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('error', 'Client signature is required');
         return;
     }
     
@@ -345,11 +361,12 @@ async function handleSubmit(e) {
         
         // Create HTML email template IN CODE
         const emailHTML = createEmailHTML({
-            clientName, company, contactNumber, emailAddress, projectTitle, projectCategory,
+            clientName: clientName.value, company, contactNumber: contactNumber.value, 
+            emailAddress: emailAddress.value, projectTitle, projectCategory,
             selectedPackage: selectedPackage || 'None', servicesHTML, totalCost,
             projectDescription, requiredFeatures, preferredColors,
-            preferredStyle, referenceWebsites, additionalNotes, clientSigner,
-            clientPosition, clientCompany, clientDate, clientSignature
+            preferredStyle, referenceWebsites, additionalNotes, clientSigner: clientSigner.value,
+            clientPosition, clientCompany, clientDate: clientDate.value, clientSignature
         });
         
         // Send ONLY to COMPANY (you will manually send final quotation to client)
@@ -359,7 +376,7 @@ async function handleSubmit(e) {
             {
                 to_email: 'lf.digitalsolutions.official@gmail.com',
                 to_name: 'L.F Digital Solutions',
-                subject: `New Cost Estimate Request - ${clientName}`,
+                subject: `New Cost Estimate Request - ${clientName.value}`,
                 html_message: emailHTML
             }
         );
@@ -458,10 +475,10 @@ ${data.servicesHTML}
 function getSelectedServices() {
     const services = [];
     
-    // Get services from checkboxes (excluding maintenance)
+    // Get services from checkboxes (excluding maintenance which is now radio)
     document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
-        // Skip maintenance checkboxes
-        if (checkbox.name && checkbox.name.startsWith('maintenance_')) {
+        // Skip maintenance plan radio buttons
+        if (checkbox.name === 'maintenance_plan') {
             return;
         }
         
@@ -698,6 +715,11 @@ Thank you for considering L.F Digital Solutions!
 
 function showToast(type, message) {
     const container = document.getElementById('toast-container');
+    
+    // Remove any existing toasts of the same type to prevent duplicates
+    const existingToasts = container.querySelectorAll(`.toast.${type}`);
+    existingToasts.forEach(toast => toast.remove());
+    
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     
