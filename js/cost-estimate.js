@@ -44,6 +44,22 @@ function setupEventListeners() {
         radio.addEventListener('change', calculateTotal);
     });
     
+    // Add unclick functionality for maintenance plan radio buttons
+    let lastCheckedMaintenance = null;
+    document.querySelectorAll('input[name="maintenance_plan"]').forEach(radio => {
+        radio.addEventListener('click', function() {
+            if (this === lastCheckedMaintenance) {
+                // If clicking the same radio button, uncheck it
+                this.checked = false;
+                lastCheckedMaintenance = null;
+                calculateTotal();
+            } else {
+                lastCheckedMaintenance = this;
+                calculateTotal();
+            }
+        });
+    });
+    
     // Form submission - use both addEventListener and check for form element
     const form = document.getElementById('cost-estimate-form');
     if (form) {
