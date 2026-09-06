@@ -68,7 +68,7 @@
                                 <td><input type="checkbox" class="service-checkbox" data-price="0" name="service_progress_meeting"></td>
                                 <td>Project Progress Meeting</td>
                                 <td>Progress review, project updates, feedback, & discussion of ongoing development.</td>
-                                <td>FREE (Online)<br>Transportation Fee Applies* (On-Site)<br><em>(Preferred On-Site)</em></td>
+                                <td>FREE (Online)<br>Transportation Fee Applies* (On-Site)</td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="service-checkbox" data-price="100" name="service_additional_consultation"></td>
@@ -271,7 +271,7 @@
                             <tr>
                                 <th style="width: 50px; text-align: center;">☐</th>
                                 <th>ADD-ON</th>
-                                <th style="width: 120px;">PRICE</th>
+                                <th style="width: 120px;">STARTING PRICE</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -291,9 +291,9 @@
                                 <td>₱500</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="1000" name="addon_business_card"></td>
+                                <td><input type="checkbox" class="service-checkbox" data-price="500" name="addon_business_card"></td>
                                 <td>Business Card Design</td>
-                                <td>₱1,000</td>
+                                <td>₱500</td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="service-checkbox" data-price="1000" name="addon_social"></td>
@@ -301,14 +301,19 @@
                                 <td>₱1,000</td>
                             </tr>
                             <tr>
+                                <td><input type="checkbox" class="service-checkbox" data-price="2000" name="addon_social_branding"></td>
+                                <td>Social Media Setup & Branding</td>
+                                <td>₱2,000</td>
+                            </tr>
+                            <tr>
                                 <td><input type="checkbox" class="service-checkbox" data-price="1000" name="addon_email_setup"></td>
                                 <td>Email Setup</td>
                                 <td>₱1,000</td>
                             </tr>
-                            <tr>
-                                <td><input type="checkbox" class="service-checkbox" data-price="500" name="addon_domain"></td>
+                            <tr class="required-row">
+                                <td>✓</td>
                                 <td>Domain Assistance</td>
-                                <td>₱500</td>
+                                <td>FREE</td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="service-checkbox" data-price="1000" name="addon_hosting"></td>
@@ -395,7 +400,7 @@
                         <thead>
                             <tr>
                                 <th>STAGE</th>
-                                <th style="width: 150px;">AMOUNT</th>
+                                <th style="width: 150px;">PAYMENT</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -405,15 +410,15 @@
                             </tr>
                             <tr>
                                 <td>Midway Progress</td>
+                                <td>40%</td>
+                            </tr>
+                            <tr>
+                                <td>Development Completion & Website Launch</td>
                                 <td>30%</td>
                             </tr>
                             <tr>
-                                <td>Development Completion</td>
-                                <td>30%</td>
-                            </tr>
-                            <tr>
-                                <td>Website Launch</td>
-                                <td>10% Balance</td>
+                                <td><strong>TOTAL:</strong></td>
+                                <td><strong>100%</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -664,7 +669,7 @@
                     <p style="margin-bottom: 8px;">The Client agrees to:</p>
                     <ul style="list-style: disc; padding-left: 24px; margin-bottom: 20px;">
                         <li style="margin-bottom: 8px;">Provide complete project requirements before development begins.</li>
-                        <li style="margin-bottom: 8px;">Attend the required Project Kick-off Meeting to review the project scope, sign the necessary project documents, and process the initial payment before development commences.</li>
+                        <li style="margin-bottom: 8px;">Attend the required Project Kick-off Meeting to review the project scope, finalize requirements, and sign the necessary project documents before development begins.</li>
                         <li style="margin-bottom: 8px;">Supply logos, branding assets, images, and written content unless content creation is included in the proposal.</li>
                         <li style="margin-bottom: 8px;">Review submitted work and provide feedback within five (5) business days.</li>
                         <li style="margin-bottom: 8px;">Make scheduled payments according to the agreed payment terms.</li>
@@ -863,7 +868,7 @@
                             </div>
                             <button type="button" class="btn-clear-sig" onclick="clearClientSig()">Clear</button>
                             <div class="signature-info">
-                                <label>Signature over Printed Name</label>
+                                <label>Signature over Printed Name <span style="color: red;">*</span></label>
                                 <input type="text" name="client_signer" class="form-input" placeholder="Your Name" required>
                                 <label>Position:</label>
                                 <input type="text" name="client_position" class="form-input">
