@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lfdigitalsolutions.com/</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://lfdigitalsolutions.com/#home</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/#home</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://lfdigitalsolutions.com/#services</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/#services</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://lfdigitalsolutions.com/#projects</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/#projects</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://lfdigitalsolutions.com/#about</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/#about</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://lfdigitalsolutions.com/#contact</loc>
+    <loc>https://lfdigitalsolutions.vercel.app/#contact</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lfdigitalsolutions.vercel.app/cost-estimate.html</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
