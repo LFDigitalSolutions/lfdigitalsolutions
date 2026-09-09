@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="Y6nRJBJPIK85d4m_x77PWM0xwvK7M0Ts0ArhOUNSUyI" />
+    
+    <title>Project Cost Summary & Payment Authorization | L.F Digital Solutions</title>
+    <link rel="icon" type="image/png" href="assets/LOGOTAB.png">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/cost-estimate.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline id="bg-video" preload="auto">
+        <source src="/assets/effortlessly.mp4" type="video/mp4">
+    </video>
+    
+    <div class="estimate-container">
+        <div class="estimate-header">
+            <h1>L.F DIGITAL SOLUTIONS</h1>
+            <p>San Antonio, Roxas ext., Digos City, Davao del Sur</p>
+            <p>MOBILE NO.: 0966 759 0644 / 0967 470 1338</p>
+            <p>EMAIL: lf.digitalsolutions.official@gmail.com</p>
+            <p class="subtitle">PROJECT COST SUMMARY & PAYMENT AUTHORIZATION</p>
+            <p class="subtitle-small">Client Approval & Payment Schedule</p>
+        </div>
+        
+        <div class="estimate-body">
+            <form id="cost-approval-form">
+                <!-- Introduction -->
+                <div class="intro-box">
+                    <p><strong>Thank you for considering L.F Digital Solutions for your project.</strong></p>
+                    <p style="margin-top: 12px;">Please review the attached <strong>PDF quotation</strong> before completing this authorization form. By signing this document, you authorize us to proceed with your project upon completion of the required documentation and receipt of the initial payment.</p>
+                </div>
+                
+                <!-- CLIENT INFORMATION -->
+                <div class="form-section">
+                    <h2 class="section-title">CLIENT INFORMATION</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">CLIENT NAME: <span style="color: red;">*</span></label>
+                            <input type="text" name="client_name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">COMPANY/ORGANIZATION:</label>
+                            <input type="text" name="company" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">EMAIL ADDRESS: <span style="color: red;">*</span></label>
+                            <input type="email" name="email_address" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CONTACT NUMBER: <span style="color: red;">*</span></label>
+                            <input type="tel" name="contact_number" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PROJECT TITLE/REFERENCE: <span style="color: red;">*</span></label>
+                        <input type="text" name="project_reference" class="form-input" required>
+                    </div>
+                </div>
+                
+                <!-- PAYMENT CONDITIONS -->
+                <div class="form-section">
+                    <h2 class="section-title">PAYMENT CONDITIONS</h2>
+                    <div style="background: #f8fafc; padding: 24px; border-radius: 12px; border: 2px solid #e2e8f0;">
+                        <p style="margin-bottom: 16px; line-height: 1.6;">
+                            The Client acknowledges and agrees to the total project cost and payment schedule stated in the attached quotation document.
+                        </p>
+                        <ul style="list-style: disc; padding-left: 24px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px;">The required initial payment must be received before development officially begins.</li>
+                            <li style="margin-bottom: 8px;">Project timelines shall commence upon confirmation of the required initial payment and completion of the necessary project documents.</li>
+                            <li style="margin-bottom: 8px;">Payments shall be made through the payment method designated by L.F Digital Solutions.</li>
+                            <li style="margin-bottom: 8px;">Any additional work, features, services, or changes outside the approved project scope may require a separate quotation and payment.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- PROJECT AUTHORIZATION -->
+                <div class="form-section">
+                    <h2 class="section-title">PROJECT AUTHORIZATION <span style="color: red;">*</span></h2>
+                    <p style="margin-bottom: 20px; line-height: 1.6;">
+                        <strong>This document confirms that the Client has:</strong>
+                    </p>
+                    <div style="background: #f0f7ff; padding: 24px; border-radius: 12px; border: 2px solid #1E3A8A;">
+                        <div class="checkbox-list-inline" style="display: flex; flex-direction: column; gap: 12px;">
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_reviewed_estimate" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Reviewed the approved Cost Estimate</span>
+                            </label>
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_reviewed_scope" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Reviewed the project scope and deliverables</span>
+                            </label>
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_confirmed_cost" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Confirmed the total project cost</span>
+                            </label>
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_confirmed_schedule" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Confirmed the payment schedule</span>
+                            </label>
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_acknowledged_terms" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Acknowledged the applicable terms and conditions</span>
+                            </label>
+                            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                                <input type="checkbox" name="auth_proceed" required style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;">
+                                <span style="line-height: 1.5;">Authorized L.F Digital Solutions to proceed upon receipt of the required initial payment</span>
+                            </label>
+                        </div>
+                    </div>
+                    <p class="note-small" style="margin-top: 12px;">
+                        All authorization checkboxes must be checked to proceed with submission.
+                    </p>
+                </div>
+                
+                <!-- CLIENT SIGNATURE -->
+                <div class="form-section">
+                    <h2 class="section-title">CLIENT SIGNATURE <span style="color: red;">*</span></h2>
+                    <p style="margin-bottom: 20px; line-height: 1.6;">
+                        By signing below, the Client confirms that they have reviewed and understood the total project cost, applicable discount, payment schedule, and payment conditions stated in the attached quotation document.
+                    </p>
+                    <p style="margin-bottom: 20px; line-height: 1.6;">
+                        The Client acknowledges that this document corresponds to the approved project quotation and authorizes L.F Digital Solutions to proceed with the project upon completion of the required documentation and receipt of the initial payment.
+                    </p>
+                    
+                    <div class="signature-section" style="grid-template-columns: 1fr; max-width: 600px; margin: 0 auto;">
+                        <div class="signature-box">
+                            <h4>SIGN HERE</h4>
+                            <div class="signature-pad-container">
+                                <canvas id="client-signature" class="signature-canvas"></canvas>
+                            </div>
+                            <button type="button" class="btn-clear-sig" onclick="clearClientSig()">Clear</button>
+                            <div class="signature-info">
+                                <label>Signature over Printed Name <span style="color: red;">*</span></label>
+                                <input type="text" name="client_signer" class="form-input" placeholder="Your Name" required>
+                                <label>Position/Title:</label>
+                                <input type="text" name="client_position" class="form-input">
+                                <label>Date:</label>
+                                <input type="date" name="client_date" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="submit-authorization">
+                    Submit Authorization
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="toast-container" id="toast-container"></div>
+    
+    <!-- Success Modal -->
+    <div class="success-modal" id="success-modal">
+        <div class="success-modal-content">
+            <div class="success-icon">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h2 class="success-title">Authorization Received!</h2>
+            <p class="success-message">Your project authorization has been submitted successfully.</p>
+            <p class="success-submessage">We will contact you shortly to confirm receipt of the initial payment and begin your project.</p>
+            <button class="success-btn" onclick="window.location.href='/'">Return to Homepage</button>
+        </div>
+    </div>
+    
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Signature Pad Library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <!-- Copy Protection -->
+    <script src="js/copy-protection.js"></script>
+    <script src="js/cost-approval.js"></script>
+</body>
+</html>
