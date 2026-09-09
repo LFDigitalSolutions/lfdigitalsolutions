@@ -412,13 +412,11 @@ async function handleSubmit(e) {
             servicesHTML += `
 <tr><td colspan="2" style="padding: 15px 8px 8px 8px; background: #1E3A8A; color: white; font-weight: bold; font-size: 13px;">TABLE 4: MONTHLY MAINTENANCE PLAN</td></tr>`;
             services.table4.forEach(s => {
-                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">• ${s.name}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
-                if (s.suitableFor) {
-                    servicesHTML += `<tr><td colspan="2" style="padding: 0 8px 8px 40px; color: #666; font-size: 12px; font-style: italic;">Suitable for: ${s.suitableFor}</td></tr>`;
-                }
+                const planDisplay = s.suitableFor ? `${s.name} (${s.suitableFor})` : s.name;
+                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">• ${planDisplay}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
                 monthlyRecurring += s.price;
             });
-            servicesHTML += `<tr><td colspan="2" style="padding: 8px; padding-left: 20px; color: #666; font-size: 12px; font-style: italic;">(Optional recurring service after project completion)</td></tr>`;
+            servicesHTML += `<tr><td colspan="2" style="padding: 4px 8px 8px 20px; color: #666; font-size: 12px; font-style: italic;">(Optional recurring service after project completion)</td></tr>`;
         }
         
         // Summary rows
@@ -604,8 +602,14 @@ function getSelectedServices() {
     const table3Rows = document.querySelectorAll('.simple-table tbody tr');
     table3Rows.forEach(row => {
         const checkbox = row.querySelector('.service-checkbox, input[type="checkbox"]');
+        const radioButton = row.querySelector('input[type="radio"]');
         const isRequired = row.classList.contains('required-row');
         const cells = row.querySelectorAll('td');
+        
+        // Skip if this row has a radio button (it's from maintenance plan table)
+        if (radioButton) {
+            return;
+        }
         
         if (cells.length >= 3) {
             const addonName = cells[1].textContent.trim();
