@@ -369,7 +369,66 @@ async function handleSubmit(e) {
         const clientCompany = document.querySelector('[name="client_company_sig"]').value || 'N/A';
         
         const services = getSelectedServices();
-        const servicesHTML = services.map(s => `<tr><td style="padding: 8px;">${s.name}</td><td style="padding: 8px; text-align: right;">₱${formatNumber(s.price)}</td></tr>`).join('');
+        
+        // Build organized services HTML
+        let servicesHTML = '';
+        let oneTimeCost = 0;
+        let monthlyRecurring = 0;
+        
+        // TABLE 1: Design & Development Services
+        if (services.table1.length > 0) {
+            servicesHTML += `
+<tr><td colspan="2" style="padding: 15px 8px 8px 8px; background: #1E3A8A; color: white; font-weight: bold; font-size: 13px;">TABLE 1: DESIGN & DEVELOPMENT SERVICES & FEES</td></tr>`;
+            services.table1.forEach(s => {
+                const icon = s.isRequired ? '✓' : '•';
+                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">${icon} ${s.name}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
+                oneTimeCost += s.price;
+            });
+        }
+        
+        // TABLE 2: Selected Package
+        if (services.table2.length > 0) {
+            servicesHTML += `
+<tr><td colspan="2" style="padding: 15px 8px 8px 8px; background: #1E3A8A; color: white; font-weight: bold; font-size: 13px;">TABLE 2: SELECTED PACKAGE</td></tr>`;
+            services.table2.forEach(s => {
+                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">• ${s.name}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
+                oneTimeCost += s.price;
+            });
+        }
+        
+        // TABLE 3: Additional Add-ons
+        if (services.table3.length > 0) {
+            servicesHTML += `
+<tr><td colspan="2" style="padding: 15px 8px 8px 8px; background: #1E3A8A; color: white; font-weight: bold; font-size: 13px;">TABLE 3: ADDITIONAL ADD-ONS</td></tr>`;
+            services.table3.forEach(s => {
+                const icon = s.isRequired ? '✓' : '•';
+                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">${icon} ${s.name}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
+                oneTimeCost += s.price;
+            });
+        }
+        
+        // TABLE 4: Monthly Maintenance Plan
+        if (services.table4.length > 0) {
+            servicesHTML += `
+<tr><td colspan="2" style="padding: 15px 8px 8px 8px; background: #1E3A8A; color: white; font-weight: bold; font-size: 13px;">TABLE 4: MONTHLY MAINTENANCE PLAN</td></tr>`;
+            services.table4.forEach(s => {
+                servicesHTML += `<tr><td style="padding: 8px; padding-left: 20px;">• ${s.name}</td><td style="padding: 8px; text-align: right;">${s.priceText}</td></tr>`;
+                if (s.suitableFor) {
+                    servicesHTML += `<tr><td colspan="2" style="padding: 0 8px 8px 40px; color: #666; font-size: 12px; font-style: italic;">Suitable for: ${s.suitableFor}</td></tr>`;
+                }
+                monthlyRecurring += s.price;
+            });
+            servicesHTML += `<tr><td colspan="2" style="padding: 8px; padding-left: 20px; color: #666; font-size: 12px; font-style: italic;">(Optional recurring service after project completion)</td></tr>`;
+        }
+        
+        // Summary rows
+        servicesHTML += `
+<tr><td colspan="2" style="padding: 15px 8px 8px 8px;">&nbsp;</td></tr>
+<tr><td style="padding: 8px; font-weight: bold;">SUBTOTAL (One-time Project Cost):</td><td style="padding: 8px; text-align: right; font-weight: bold;">₱${formatNumber(oneTimeCost)}</td></tr>`;
+        
+        if (monthlyRecurring > 0) {
+            servicesHTML += `<tr><td style="padding: 8px; font-weight: bold;">Monthly Recurring:</td><td style="padding: 8px; text-align: right; font-weight: bold;">₱${formatNumber(monthlyRecurring)}/month</td></tr>`;
+        }
         
         const projectCategory = getProjectCategoryText();
         const requiredFeatures = getRequiredFeaturesText();
@@ -379,7 +438,7 @@ async function handleSubmit(e) {
         const emailHTML = createEmailHTML({
             clientName: clientName.value, company, contactNumber: contactNumber.value, 
             emailAddress: emailAddress.value, projectTitle, projectCategory,
-            selectedPackage: selectedPackage || 'None', servicesHTML, totalCost,
+            selectedPackage: selectedPackage || 'None', servicesHTML, oneTimeCost, monthlyRecurring,
             projectDescription, requiredFeatures, preferredColors,
             preferredStyle, referenceWebsites, additionalNotes, clientSigner: clientSigner.value,
             clientPosition, clientCompany, clientDate: clientDate.value, clientSignature
@@ -449,7 +508,8 @@ td { padding: 8px; }
 <table class="services-table">
 ${data.servicesHTML}
 </table>
-<div class="total">TOTAL ESTIMATED COST: ₱${formatNumber(data.totalCost)}</div>
+<div class="total">TOTAL PROJECT COST: ₱${formatNumber(data.oneTimeCost)}</div>
+${data.monthlyRecurring > 0 ? `<div class="total" style="font-size: 16px; margin-top: 10px;">Monthly Recurring: ₱${formatNumber(data.monthlyRecurring)}/month</div>` : ''}
 
 <h2>PROJECT DETAILS</h2>
 <p><strong>Project Title:</strong> ${data.projectTitle}</p>
@@ -489,34 +549,108 @@ ${data.servicesHTML}
 }
 
 function getSelectedServices() {
-    const services = [];
+    const services = {
+        table1: [], // Design & Development Services
+        table2: [], // Package
+        table3: [], // Add-ons
+        table4: []  // Maintenance Plan
+    };
     
-    // Get services from checkboxes (excluding maintenance which is now radio)
-    document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
-        // Skip maintenance plan radio buttons
-        if (checkbox.name === 'maintenance_plan') {
-            return;
-        }
+    // TABLE 1: Get services from Table 1 (both required and optional)
+    const table1Rows = document.querySelectorAll('.services-table tbody tr');
+    table1Rows.forEach(row => {
+        const checkbox = row.querySelector('.service-checkbox');
+        const isRequired = row.classList.contains('required-row');
+        const cells = row.querySelectorAll('td');
         
-        const row = checkbox.closest('tr');
-        let serviceName = checkbox.name.replace(/_/g, ' ').replace('service ', '').replace('addon ', '');
-        
-        if (row) {
-            const cells = row.querySelectorAll('td');
-            if (cells[1]) {
-                serviceName = cells[1].textContent.trim();
+        if (cells.length >= 4) {
+            const serviceName = cells[1].textContent.trim();
+            const priceText = cells[3].textContent.trim();
+            
+            if (isRequired) {
+                // Required service - always include
+                services.table1.push({ 
+                    name: serviceName, 
+                    price: priceText === 'Included' ? 0 : parseFloat(priceText.replace(/[₱,]/g, '')) || 0,
+                    priceText: priceText,
+                    isRequired: true 
+                });
+            } else if (checkbox && checkbox.checked) {
+                // Optional service that was selected
+                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                services.table1.push({ 
+                    name: serviceName, 
+                    price: price,
+                    priceText: `₱${formatNumber(price)}`,
+                    isRequired: false 
+                });
             }
         }
-        
-        const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
-        services.push({ name: serviceName, price: price });
     });
     
-    // Get selected package
+    // TABLE 2: Get selected package
     const selectedRadio = document.querySelector('.package-radio:checked');
     if (selectedRadio) {
         const price = parseFloat(selectedRadio.getAttribute('data-price')) || 0;
-        services.push({ name: `Package: ${selectedRadio.value}`, price: price });
+        services.table2.push({ 
+            name: selectedRadio.value, 
+            price: price,
+            priceText: `₱${formatNumber(price)}`,
+            isRequired: false 
+        });
+    }
+    
+    // TABLE 3: Get add-ons from Table 3 (simple-table)
+    const table3Rows = document.querySelectorAll('.simple-table tbody tr');
+    table3Rows.forEach(row => {
+        const checkbox = row.querySelector('.service-checkbox, input[type="checkbox"]');
+        const isRequired = row.classList.contains('required-row');
+        const cells = row.querySelectorAll('td');
+        
+        if (cells.length >= 3) {
+            const addonName = cells[1].textContent.trim();
+            const priceText = cells[2].textContent.trim();
+            
+            if (isRequired) {
+                // Required add-on (like Domain Assistance)
+                services.table3.push({ 
+                    name: addonName, 
+                    price: 0,
+                    priceText: priceText,
+                    isRequired: true 
+                });
+            } else if (checkbox && checkbox.checked) {
+                // Optional add-on that was selected
+                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                services.table3.push({ 
+                    name: addonName, 
+                    price: price,
+                    priceText: `₱${formatNumber(price)}`,
+                    isRequired: false 
+                });
+            }
+        }
+    });
+    
+    // TABLE 4: Get selected maintenance plan (radio buttons)
+    const maintenanceRadio = document.querySelector('input[name="maintenance_plan"]:checked');
+    if (maintenanceRadio) {
+        const row = maintenanceRadio.closest('tr');
+        if (row) {
+            const cells = row.querySelectorAll('td');
+            const planName = cells[1]?.textContent.trim();
+            const priceText = cells[2]?.textContent.trim();
+            const suitableFor = cells[3]?.textContent.trim();
+            const price = parseFloat(maintenanceRadio.getAttribute('data-price')) || 0;
+            
+            services.table4.push({ 
+                name: planName, 
+                price: price,
+                priceText: priceText,
+                suitableFor: suitableFor,
+                isRequired: false 
+            });
+        }
     }
     
     return services;
