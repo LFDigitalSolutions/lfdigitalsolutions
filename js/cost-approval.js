@@ -73,18 +73,12 @@ async function handleSubmit(e) {
     if (submitBtn.disabled) return;
     
     // Validate required fields
-    const clientName = document.querySelector('[name="client_name"]');
     const emailAddress = document.querySelector('[name="email_address"]');
-    const contactNumber = document.querySelector('[name="contact_number"]');
-    const projectReference = document.querySelector('[name="project_reference"]');
     const clientSigner = document.querySelector('[name="client_signer"]');
     const clientDate = document.querySelector('[name="client_date"]');
     
     const requiredFields = [
-        { element: clientName, name: 'Client Name' },
         { element: emailAddress, name: 'Email Address' },
-        { element: contactNumber, name: 'Contact Number' },
-        { element: projectReference, name: 'Project Title/Reference' },
         { element: clientSigner, name: 'Signature over Printed Name' },
         { element: clientDate, name: 'Date' }
     ];
@@ -130,16 +124,11 @@ async function handleSubmit(e) {
     try {
         const clientSignature = clientSignaturePad.toDataURL('image/png');
         
-        const company = document.querySelector('[name="company"]').value || 'N/A';
         const clientPosition = document.querySelector('[name="client_position"]').value || 'N/A';
         
         // Create HTML email template
         const emailHTML = createEmailHTML({
-            clientName: clientName.value,
-            company: company,
             emailAddress: emailAddress.value,
-            contactNumber: contactNumber.value,
-            projectReference: projectReference.value,
             clientSigner: clientSigner.value,
             clientPosition: clientPosition,
             clientDate: clientDate.value,
@@ -153,7 +142,7 @@ async function handleSubmit(e) {
             {
                 to_email: 'lf.digitalsolutions.official@gmail.com',
                 to_name: 'L.F Digital Solutions',
-                subject: `Project Authorization - ${clientName.value} - ${projectReference.value}`,
+                subject: `Project Authorization - ${emailAddress.value}`,
                 html_message: emailHTML
             }
         );
@@ -193,13 +182,9 @@ td { padding: 8px; }
 <h1>PROJECT COST SUMMARY & PAYMENT AUTHORIZATION</h1>
 <p style="text-align: center; color: #666;">L.F DIGITAL SOLUTIONS</p>
 
-<h2>CLIENT INFORMATION</h2>
+<h2>CLIENT EMAIL ADDRESS</h2>
 <table>
-<tr><td><strong>Client Name:</strong></td><td>${data.clientName}</td></tr>
-<tr><td><strong>Company:</strong></td><td>${data.company}</td></tr>
 <tr><td><strong>Email:</strong></td><td>${data.emailAddress}</td></tr>
-<tr><td><strong>Contact Number:</strong></td><td>${data.contactNumber}</td></tr>
-<tr><td><strong>Project Reference:</strong></td><td>${data.projectReference}</td></tr>
 </table>
 
 <h2>PROJECT AUTHORIZATION</h2>
